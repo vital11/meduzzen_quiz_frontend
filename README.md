@@ -12,7 +12,13 @@
 
 Runs the app in the development mode.\
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+##### or
+    $ docker build --tag react .
+    $ docker run --publish 3001:3000 react
 
-
+##### or
+    $ docker-compose build
+    $ docker-compose up -d
+Open [http://localhost:3001](http://localhost:3001) to view it in the browser.
 
 
