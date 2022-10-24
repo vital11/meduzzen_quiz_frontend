@@ -1,8 +1,14 @@
-import {HomePage} from './pages/HomePage'
+import UserList from './pages/UserList';
+import { Home } from './pages/Home';
+
 
 function App() {
   return (
-      <HomePage />
+    <div>
+      <Home />
+      <hr />
+      <UserList />
+    </div>
   )
 }
 
