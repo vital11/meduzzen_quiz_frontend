@@ -1,15 +1,16 @@
+import { Route, Routes } from 'react-router-dom';
 import UserList from './pages/UserList';
 import { Home } from './pages/Home';
 
 
 function App() {
   return (
-    <div>
-      <Home />
-      <hr />
-      <UserList />
-    </div>
+    <Routes>
+      <Route path="/" element={<Home />} />
+      <Route path="/users" element={<UserList />} />
+    </Routes>
   )
 }
 
 export default App;
+

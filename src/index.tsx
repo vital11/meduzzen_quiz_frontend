@@ -6,16 +6,21 @@ import reportWebVitals from './reportWebVitals';
 import { store } from './store'
 import { Provider } from 'react-redux';
 import { ModalState } from './context/ModalContext';
+import { BrowserRouter } from 'react-router-dom';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
+
+
 root.render(
-  <Provider store={store}>
-    <ModalState>
-      <App />
-    </ModalState>
-  </Provider>
+  <BrowserRouter>
+    <Provider store={store}>
+      <ModalState>
+        <App />
+      </ModalState>
+    </Provider>
+  </BrowserRouter>
 );
 
 reportWebVitals();
