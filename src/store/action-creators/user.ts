@@ -3,14 +3,13 @@ import { Dispatch } from "redux"
 import { UserAction, UserActionTypes } from "../../types/user"
 
 
-const apiUrl: string = process.env.REACT_APP_API_URL!;
+const API_URL: string = process.env.REACT_APP_API_URL!;
 
 export const fetchUsers = () => {
     return async (dispatch: Dispatch<UserAction>) => {
         try {
             dispatch({type: UserActionTypes.FETCH_USERS})
-            const response = await axios.get(apiUrl + '/users')
-            // const response = await axios.get('http://127.0.0.1:8000/users')
+            const response = await axios.get(API_URL + '/users')
             dispatch({
                 type: UserActionTypes.FETCH_USERS_SUCCESS,
                 payload: response.data})

@@ -1,23 +1,34 @@
-import { useState } from 'react';
+import React, { useEffect } from "react";
+import { useActions } from "../../hooks/useActions";
+import { useTypedSelector } from "../../hooks/useTypedSelector";
+import { Button } from "../UI/Button";
 
 
-const Counter = function () {
-    const [count, setCount] = useState(0)
+const Counter: React.FC = () => {
+    const { count } = useTypedSelector(state => state.counter);
+    const { increment, decrement, reset } = useActions();
 
-    function increment() {
-        setCount(count + 1)
-    }
+    useEffect(() => {
+        increment(0)
+    }, [])
 
-    function decrement() {
-        setCount(count - 1)
-    }
+    useEffect(() => {
+        decrement(0)
+    }, [])
+
+    useEffect(() => {
+        reset()
+    }, [])
 
     return (
-        <div className='m-5'>
-            <h1>{count}</h1>
-            <button className='p-5 mx-1 bg-slate-100' onClick={increment}>Increment</button>
-            <button className='p-5 mx-1 bg-slate-100' onClick={decrement}>Decrement</button>
-        </div>
+        <>
+            <p>{ count }</p>
+            <div >
+                <Button onClick={() => increment(10)} text='Increment'/>
+                <Button onClick={() => decrement(10)} text='Decrement'/>
+                <Button onClick={() => reset()} text='Reset'/>
+            </div>
+        </>
     )
 }
 

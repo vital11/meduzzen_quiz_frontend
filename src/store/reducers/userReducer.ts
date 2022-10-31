@@ -19,4 +19,3 @@ export const userReducer = (state = initialState, action: UserAction): UserState
             return state
     }
 }
-    
