@@ -20,5 +20,3 @@ Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
     $ docker-compose build
     $ docker-compose up -d
 Open [http://localhost:3001](http://localhost:3001) to view it in the browser.
-
-
