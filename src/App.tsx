@@ -1,28 +1,41 @@
-import { Route, Routes } from "react-router-dom";
-import { Auth0Provider } from "@auth0/auth0-react";
+import { Navigate, Route, Routes } from "react-router-dom";
+import React, { useState, useEffect } from "react";
 
-import UserList from "./pages/UserList";
+import UserList from "./components/UserList";
 import { Home } from "./pages/Home";
-
-const DOMAIN: string = process.env.REACT_APP_AUTH0_DOMAIN!;
-const CLIENT_ID: string = process.env.REACT_APP_AUTH0_CLIENT_ID!;
-const AUDIUENCE: string = process.env.REACT_APP_AUTH0_AUDIUENCE!;
+import Login from "./components/Login";
+import Register from "./components/Register";
+import HomePage from "./components/HomePage";
+import Navbar from "./components/Navbar";
+import SignUp from "./components/SignUp";
+import SignIn from "./components/SignIn";
+import UserUpdate from "./components/UserUpdate";
+import UserProfile from "./components/UserProfile";
+import Layout from "./components/Layout";
 
 function App() {
-  return (
-    <Auth0Provider
-      domain={DOMAIN}
-      clientId={CLIENT_ID}
-      audience={AUDIUENCE}
-      redirectUri={window.location.origin}
-      scope="read:current_user update:current_user_metadata"
-    >
-      <Routes>
-        <Route path="/users" element={<UserList />} />
-        <Route path="/" element={<Home />} />
-      </Routes>
-    </Auth0Provider>
-  );
+
+	return (
+		<div className="app">
+			<Navbar />
+
+			<Layout>
+				<Routes>
+
+					<Route path="/" element={<Home />} />
+					<Route path="/signup" element={<SignUp />} />
+					<Route path="/signin" element={<SignIn />} />
+
+					<Route path="/users" element={<UserList />} />
+					<Route path="/users/:id" element={<UserProfile />} />
+					<Route path="/users/:id/update" element={<UserUpdate />} />
+
+					<Route path="*" element={<Navigate replace to="/" />} />
+				</Routes>
+
+			</Layout>
+		</div>
+	)
 }
 
 export default App;

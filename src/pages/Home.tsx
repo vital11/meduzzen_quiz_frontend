@@ -10,11 +10,6 @@ export function Home() {
 
     return (
         <>
-            <div className="container mx-auto max-w-2xl pt-5">
-                <h1 className="container mx-auto max-w-2xl pt-5">Quiz Project</h1>
-                <p>Welcome to Quiz Project Homepage.</p>
-            </div>
-
             <LoginButton />
             <LogoutButton />
 
