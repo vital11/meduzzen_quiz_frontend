@@ -1,13 +1,14 @@
-import { UsersAction, UsersState, UsersActionTypes, IUser, CurrentUserAction, CurrentUserState, CurrentUserActionTypes } from '../../types/user'
+import { TokenActionTypes, UserAction, UserState } from '../../types/auth'
+import { UsersAction, UsersState, UsersActionTypes } from '../../types/user'
 
 
-const initialState: UsersState = {
+const initialUsersState: UsersState = {
     users: [],
     loading: false,
     error: null
 }
 
-export const usersReducer = (state = initialState, action: UsersAction): UsersState => {
+export const usersReducer = (state = initialUsersState, action: UsersAction): UsersState => {
     switch (action.type) {
         case UsersActionTypes.FETCH_USERS:
             return {loading: true, error: null, users: []}
@@ -21,18 +22,24 @@ export const usersReducer = (state = initialState, action: UsersAction): UsersSt
 }
 
 
-const defaultState: CurrentUserState = {
-    currentUser: {},
+const initialUserState: UserState = {
     isAuth: false,
 }
 
-
-export const currentUsersReducer = (state = defaultState, action: CurrentUserAction): CurrentUserState => {
+export const userReducer = (state = initialUserState, action: UserAction): UserState => {
     switch (action.type) {
-        case CurrentUserActionTypes.LOG_IN:
-            return {isAuth: true, currentUser: {}}
-        case CurrentUserActionTypes.LOG_OUT:
-            return {isAuth: false, currentUser: false}
+        case TokenActionTypes.SET_TOKEN:
+            return {
+                ...state,
+                isAuth: true
+            }
+        case TokenActionTypes.DEL_TOKEN:
+            localStorage.removeItem("auth_token");
+            localStorage.removeItem("auth_token_type");
+            return {
+                ...state,
+                isAuth: false
+            }
         default:
             return state
     }

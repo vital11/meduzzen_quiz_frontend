@@ -11,12 +11,11 @@ interface Params {
     id: string;
 }
 
-export default function UserProfile() {
-    const {id} = useParams<keyof Params>() as Params;
+export default function UserMe() {
     const [user, setUser] = useState<IUser>();
 
     useEffect(() => {
-        userAPI.readUser(id, setUser)
+        userAPI.readUserMe(setUser)
     }, [])
 
 	return (
@@ -45,6 +44,6 @@ export default function UserProfile() {
                 <UserDelete />
             </div>
         </div>
-    </>
+        </>
 	);
 }

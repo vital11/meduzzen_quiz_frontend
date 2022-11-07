@@ -1,20 +1,26 @@
 
-export interface IUserCreate {
-    email: string;
-    password: string;
-}
-
-export interface IUserUpdate {
-    name: string | null;
-    password: string;
-}
-
 export interface IUser {
     email: string;
     name: string | null;
     is_active: boolean;
     is_superuser: boolean;
-    id: number;
+    id?: number;
+}
+
+export interface IUserUpdate {
+    email?: string;
+    name?: string;
+    is_active?: boolean;
+    is_superuser?: boolean;
+    password?: string;
+}
+
+export interface IUserCreate {
+    email: string;
+    name?: string;
+    is_active?: boolean;
+    is_superuser?: boolean;
+    password?: string;
 }
 
 export interface UsersState {
@@ -45,25 +51,3 @@ interface FetchUsersErrorAction {
 
 export type UsersAction = FetchUsersAction | FetchUsersSuccessAction | FetchUsersErrorAction
 
-
-export interface CurrentUserState {
-    currentUser: {};
-    isAuth: boolean;
-}
-
-export enum CurrentUserActionTypes {
-    LOG_IN="LOG_IN",
-    LOG_OUT="LOG_OUT",
-}
-
-interface FetchCurrentUserLoginAction {
-    type: CurrentUserActionTypes.LOG_IN;
-    payload?: boolean;
-}
-
-interface FetchCurrentUserLogoutAction {
-    type: CurrentUserActionTypes.LOG_OUT;
-    payload?: boolean;
-}
-
-export type CurrentUserAction = FetchCurrentUserLoginAction | FetchCurrentUserLogoutAction

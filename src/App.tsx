@@ -1,41 +1,55 @@
 import { Navigate, Route, Routes } from "react-router-dom";
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 
 import UserList from "./components/UserList";
 import { Home } from "./pages/Home";
-import Login from "./components/Login";
-import Register from "./components/Register";
-import HomePage from "./components/HomePage";
 import Navbar from "./components/Navbar";
 import SignUp from "./components/SignUp";
-import SignIn from "./components/SignIn";
-import UserUpdate from "./components/UserUpdate";
 import UserProfile from "./components/UserProfile";
 import Layout from "./components/Layout";
+import { useTypedSelector } from "./hooks/useTypedSelector";
+import Login from "./components/forms/Login";
+import UserMe from "./components/UserMe";
+import { IUser } from "./types/user";
+import { userAPI } from "./api/userAPI";
+
 
 function App() {
+	const isAuth = useTypedSelector((state) => state.user.isAuth);
+	console.log(isAuth)
+
+	const [user, setUser] = useState<IUser>();
+
+	useEffect(() => {
+		userAPI.readUserMe(setUser)
+		console.log(user)
+	}, []);
 
 	return (
-		<div className="app">
+		<>
 			<Navbar />
 
 			<Layout>
+				{!isAuth ?
 				<Routes>
-
 					<Route path="/" element={<Home />} />
 					<Route path="/signup" element={<SignUp />} />
-					<Route path="/signin" element={<SignIn />} />
-
-					<Route path="/users" element={<UserList />} />
-					<Route path="/users/:id" element={<UserProfile />} />
-					<Route path="/users/:id/update" element={<UserUpdate />} />
-
+					<Route path="/login" element={<Login />} />
 					<Route path="*" element={<Navigate replace to="/" />} />
 				</Routes>
-
+				:
+				<Routes>
+					<Route path="/" element={<Home />} />
+					<Route path="/users" element={<UserList />} />
+					<Route path="/users/:id" element={<UserProfile />} />
+					<Route path="/users/me" element={<UserMe />} />
+					<Route path="*" element={<Navigate replace to="/" />} />
+				</Routes>
+				}
 			</Layout>
-		</div>
+		</>
 	)
 }
 
 export default App;
+

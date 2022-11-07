@@ -3,11 +3,9 @@ import "./index.css";
 import App from "./App";
 import { Auth0Provider } from "@auth0/auth0-react";
 import reportWebVitals from "./reportWebVitals";
-import { store } from "./store";
+import { store } from "./store/store";
 import { Provider } from "react-redux";
 import { BrowserRouter } from "react-router-dom";
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
 
 const DOMAIN: string = process.env.REACT_APP_AUTH0_DOMAIN!;
 const CLIENT_ID: string = process.env.REACT_APP_AUTH0_CLIENT_ID!;
@@ -26,7 +24,6 @@ root.render(
 		scope="read:current_user update:current_user_metadata"
 	>
 		<BrowserRouter>
-		<ToastContainer />
 			<Provider store={store}>
 				<App />
 			</Provider>
