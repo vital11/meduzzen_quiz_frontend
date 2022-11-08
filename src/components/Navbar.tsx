@@ -1,7 +1,7 @@
 import { NavLink } from "react-router-dom";
 import { useAppDispatch } from "../hooks/useAppDispatch";
 import { useTypedSelector } from "../hooks/useTypedSelector";
-import { logout } from "../store/actions/auth";
+import { logout } from "../store/reducers/userReducer";
 
 
 const Navbar = () => {
@@ -25,13 +25,15 @@ const Navbar = () => {
 					</span>
 				</div> }
 				<div className="flex items-center">
-					{ !isAuth ? <>
+					{ !isAuth ? 
+					<>
 					<button className="text-center mx-5 hover:text-amber-400">
 						<NavLink to="/login"> Login </NavLink>
 					</button>
 					<button className="rounded-md bg-amber-400 px-10 py-2 text-white hover:bg-amber-300">
 						<NavLink to="/signup"> Sign Up </NavLink>
-					</button> </>
+					</button> 
+					</>
 					:
 					<button 
 						className="text-center mx-5 hover:text-amber-400" 

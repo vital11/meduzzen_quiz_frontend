@@ -1,8 +1,7 @@
 import { Dispatch, SetStateAction } from "react";
-import { api, apiAuth, apiAuthFormData } from ".";
+import { api, openApi } from ".";
 import { IUser, IUserCreate, IUserUpdate } from "../types/user";
-import { IToken, UserAction } from "../types/auth";
-import { login } from "../store/actions/auth";
+
 
 export const userAPI = {
 
@@ -21,7 +20,7 @@ export const userAPI = {
 
     async createUser(email: string, password: string) {
         try {
-            const response = await apiAuth.post<IUserCreate>('/users/', {
+            const response = await openApi.post<IUserCreate>('/users/', {
                 email,
                 password,
             })
@@ -51,7 +50,7 @@ export const userAPI = {
             alert(e);
         }
     },
-    
+
     async readUserMe(setUser: Dispatch<SetStateAction<IUser | undefined>>) {
         try {
             const response = await api.get<IUser>(`/users/me/`)
@@ -64,21 +63,3 @@ export const userAPI = {
 }
 
 
-interface FormData {
-    username: string | Blob;
-    password: string | Blob;
-}
-
-export const loginUser = (loginForm: FormData) => {
-    return async (dispatch: Dispatch<UserAction>) => {
-        try {
-            const response = await apiAuthFormData.post<IToken>('/login', loginForm)
-            alert(response.data.access_token)
-            dispatch(login(response.data))
-            localStorage.setItem("auth_token", response.data.access_token);
-            localStorage.setItem("auth_token_type", response.data.token_type);
-        } catch (e) {
-            alert(e)
-        }
-    }
-}

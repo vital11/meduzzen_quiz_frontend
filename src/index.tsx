@@ -1,4 +1,7 @@
 import ReactDOM from "react-dom/client";
+import { ToastContainer } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
+
 import "./index.css";
 import App from "./App";
 import { Auth0Provider } from "@auth0/auth0-react";
@@ -6,6 +9,7 @@ import reportWebVitals from "./reportWebVitals";
 import { store } from "./store/store";
 import { Provider } from "react-redux";
 import { BrowserRouter } from "react-router-dom";
+
 
 const DOMAIN: string = process.env.REACT_APP_AUTH0_DOMAIN!;
 const CLIENT_ID: string = process.env.REACT_APP_AUTH0_CLIENT_ID!;
@@ -25,7 +29,19 @@ root.render(
 	>
 		<BrowserRouter>
 			<Provider store={store}>
-				<App />
+				<ToastContainer
+					position="top-right"
+					autoClose={5000}
+					hideProgressBar={false}
+					newestOnTop={false}
+					closeOnClick={true}
+					pauseOnFocusLoss
+					draggable
+					pauseOnHover
+					theme="light"
+				/>
+					<App />
+				<ToastContainer />
 			</Provider>
 		</BrowserRouter>
 	</Auth0Provider>,

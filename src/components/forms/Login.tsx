@@ -1,11 +1,11 @@
 import { useState } from "react";
 import { useAppDispatch } from "../../hooks/useAppDispatch";
-import { loginUser } from "../../api/userAPI";
+import { login } from "../../store/actions/user";
 import { useNavigate } from "react-router-dom";
 
 
 const Login = () => {
-	const navigate = useNavigate();
+	// const navigate = useNavigate();
 
 
 	const [loginForm, setLoginform] = useState({
@@ -28,8 +28,14 @@ const Login = () => {
 
     const onSubmitHandler = async (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
-		
-        dispatch(loginUser(loginForm));
+
+        dispatch(login(loginForm));
+
+        // reload page
+        setTimeout(() => {
+			window.location.reload();
+		}, 1000);
+
 
 		// navigate("/users/me")
 
@@ -75,10 +81,6 @@ const Login = () => {
 						className="py-3 w-full text-lg text-black bg-slate-200 rounded-lg hover:bg-slate-100 active:bg-slate-300 outline-none"
 					>	Continue with Auth0
 					</button>
-                    {/* <LoginButton /> */}
-                    <p className="mt-4 text-sm">
-                        Create a Quiz Account
-                    </p>
 				</div>
 			</form>
 		</div>

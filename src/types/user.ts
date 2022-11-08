@@ -51,3 +51,28 @@ interface FetchUsersErrorAction {
 
 export type UsersAction = FetchUsersAction | FetchUsersSuccessAction | FetchUsersErrorAction
 
+export interface IToken {
+    access_token: string;
+    token_type: string;
+}
+
+export enum UserActionTypes {
+    SET_USER = "SET_USER",
+    LOGOUT = "LOGOUT",
+}
+
+interface LoginAction {
+    type: UserActionTypes.SET_USER;
+    payload: IUser | any;
+}
+
+interface LogoutAction {
+    type: UserActionTypes.LOGOUT;
+}
+
+export type UserAction = LoginAction | LogoutAction
+
+export interface UserState {
+    user: IUser | {}
+    isAuth: boolean
+}

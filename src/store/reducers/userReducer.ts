@@ -1,5 +1,5 @@
-import { TokenActionTypes, UserAction, UserState } from '../../types/auth'
-import { UsersAction, UsersState, UsersActionTypes } from '../../types/user'
+import { UserAction, UserState, UserActionTypes } from '../../types/user'
+import { UsersAction, UsersState, UsersActionTypes, IUser } from '../../types/user'
 
 
 const initialUsersState: UsersState = {
@@ -23,24 +23,30 @@ export const usersReducer = (state = initialUsersState, action: UsersAction): Us
 
 
 const initialUserState: UserState = {
-    isAuth: false,
+    user: {},
+    isAuth: false
 }
 
 export const userReducer = (state = initialUserState, action: UserAction): UserState => {
     switch (action.type) {
-        case TokenActionTypes.SET_TOKEN:
+        case UserActionTypes.SET_USER:
             return {
                 ...state,
+                user: action.payload,
                 isAuth: true
             }
-        case TokenActionTypes.DEL_TOKEN:
-            localStorage.removeItem("auth_token");
-            localStorage.removeItem("auth_token_type");
+        case UserActionTypes.LOGOUT:
+            localStorage.removeItem("auth_token")
+            localStorage.removeItem("auth_token_type")
             return {
                 ...state,
+                user: {},
                 isAuth: false
             }
         default:
             return state
     }
 }
+
+export const setUser = (user: IUser) => ({type: UserActionTypes.SET_USER, payload: user})
+export const logout = () => ({type: UserActionTypes.LOGOUT})

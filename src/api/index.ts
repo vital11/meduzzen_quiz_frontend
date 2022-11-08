@@ -15,7 +15,7 @@ export const api = axios.create({
     }
 })
 
-export const apiAuth = axios.create({
+export const openApi = axios.create({
     baseURL: API_URL,
     withCredentials: true,
     headers: {
@@ -23,7 +23,7 @@ export const apiAuth = axios.create({
     }
 })
 
-export const apiAuthFormData = axios.create({
+export const openApiFormData = axios.create({
     baseURL: API_URL,
     withCredentials: true,
     headers: {

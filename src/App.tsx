@@ -1,5 +1,5 @@
 import { Navigate, Route, Routes } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 
 import UserList from "./components/UserList";
 import { Home } from "./pages/Home";
@@ -10,25 +10,23 @@ import Layout from "./components/Layout";
 import { useTypedSelector } from "./hooks/useTypedSelector";
 import Login from "./components/forms/Login";
 import UserMe from "./components/UserMe";
-import { IUser } from "./types/user";
-import { userAPI } from "./api/userAPI";
+import { useAppDispatch } from "./hooks/useAppDispatch";
+import { auth } from "./store/actions/user";
 
 
 function App() {
-	const isAuth = useTypedSelector((state) => state.user.isAuth);
-	console.log(isAuth)
+	const { user, isAuth } = useTypedSelector((state) => state.user);
+	console.log(isAuth, user)
 
-	const [user, setUser] = useState<IUser>();
+	const dispatch = useAppDispatch();
 
 	useEffect(() => {
-		userAPI.readUserMe(setUser)
-		console.log(user)
+		dispatch(auth())
 	}, []);
 
 	return (
 		<>
 			<Navbar />
-
 			<Layout>
 				{!isAuth ?
 				<Routes>
@@ -52,4 +50,3 @@ function App() {
 }
 
 export default App;
-
