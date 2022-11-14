@@ -20,21 +20,20 @@ const root = ReactDOM.createRoot(
 );
 
 root.render(
-	<Auth0Provider
-		domain={DOMAIN}
-		clientId={CLIENT_ID}
-		audience={AUDIUENCE}
-		redirectUri={window.location.origin}
-		scope="read:current_user update:current_user_metadata"
-	>
-		<BrowserRouter>
-			<Provider store={store}>
+	<BrowserRouter>
+		<Provider store={store}>
+			<Auth0Provider
+				domain={DOMAIN}
+				clientId={CLIENT_ID}
+				audience={AUDIUENCE}
+				redirectUri={window.location.origin}
+			>
 				<ToastContainer
 					position="top-right"
 					autoClose={5000}
 					hideProgressBar={false}
 					newestOnTop={false}
-					closeOnClick={true}
+					closeOnClick
 					pauseOnFocusLoss
 					draggable
 					pauseOnHover
@@ -42,9 +41,9 @@ root.render(
 				/>
 					<App />
 				<ToastContainer />
-			</Provider>
-		</BrowserRouter>
-	</Auth0Provider>,
+			</Auth0Provider>,
+		</Provider>
+	</BrowserRouter>
 );
 
 reportWebVitals();

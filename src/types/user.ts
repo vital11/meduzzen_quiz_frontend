@@ -16,7 +16,7 @@ export interface IUserUpdate {
 }
 
 export interface IUserCreate {
-    email: string;
+    email?: string;
     name?: string;
     is_active?: boolean;
     is_superuser?: boolean;
@@ -73,6 +73,6 @@ interface LogoutAction {
 export type UserAction = LoginAction | LogoutAction
 
 export interface UserState {
-    user: IUser | {}
+    user: IUser,
     isAuth: boolean
 }

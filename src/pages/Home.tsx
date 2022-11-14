@@ -2,17 +2,13 @@ import { useState } from "react";
 
 import Counter from "../components/examples/Counter";
 import Modal from "../components/UI/Modal";
-import LoginButton from "../components/auth0/LoginButton";
-import LogoutButton from "../components/auth0/LogoutButton";
+
 
 export function Home() {
     const [modal, setModal] = useState(false)
 
     return (
         <>
-            <LoginButton />
-            <LogoutButton />
-
             {modal && <Modal title="Simple Counter" onClose={() => setModal(false)}>
                 <Counter />
             </Modal>}

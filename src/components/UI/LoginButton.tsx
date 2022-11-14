@@ -6,10 +6,13 @@ const LoginButton = () => {
 	return (
 		<button
 			onClick={() => loginWithRedirect()}
-			className="py-3 w-full text-lg text-black bg-slate-200 rounded-lg hover:bg-slate-100 active:bg-slate-300 outline-none"
+			className="py-3 w-full text-lg bg-gray-300 rounded-lg hover:bg-gray-200 active:bg-gray-400 outline-none"
 		>	Continue with Auth0
 		</button>
 	);
 };
 
 export default LoginButton
+
+
+

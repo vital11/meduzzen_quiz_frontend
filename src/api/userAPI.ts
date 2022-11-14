@@ -1,65 +1,40 @@
-import { Dispatch, SetStateAction } from "react";
 import { api, openApi } from ".";
-import { IUser, IUserCreate, IUserUpdate } from "../types/user";
+import { IToken, IUser, IUserCreate, IUserUpdate } from "../types/user";
 
 
 export const userAPI = {
 
     async readUsers() {
-        return await api.get<IUser[]>('/users').then(response => response.data);
+        return await api.get<IUser[]>('/users').then(response => response.data)
     },
 
-    async readUser(id: string, setUser: Dispatch<SetStateAction<IUser | undefined>>) {
-        try {
-            const response = await api.get<IUser>(`/users/${id}`)
-            setUser(response.data);
-        } catch (e) {
-            console.log(e);
-        }
-    },
-
-    async createUser(email: string, password: string) {
-        try {
-            const response = await openApi.post<IUserCreate>('/users/', {
-                email,
-                password,
-            })
-            alert(response.data.email);
-        } catch (e) {
-            alert(e);
-        }
+    async readUser(id: string) {
+        return await api.get<IUser>(`/users/${id}`).then(response => response.data)
     },
 
     async updateUser(id: string, name: string, password: string) {
-        try {
-            const response = await api.patch<IUserUpdate>(`/users/${id}`, {
-                name,
-                password,
-            })
-            alert(response.data);
-        } catch (e) {
-            alert(e);
-        }
+        return await api.patch<IUser>(`/users/${id}`, {
+            name, 
+            password
+        })
+        .then(response => response.data)
     },
 
     async deleteUser(id: string) {
-        try {
-            const response = await api.delete<IUser>(`/users/${id}`)
-            alert(response.data.email);
-        } catch (e) {
-            alert(e);
-        }
+        return await api.delete<IUser>(`/sers/${id}`).then(response => response.data)
     },
 
-    async readUserMe(setUser: Dispatch<SetStateAction<IUser | undefined>>) {
-        try {
-            const response = await api.get<IUser>(`/users/me/`)
-            console.log(response.data)
-            setUser(response.data);
-        } catch (e) {
-            console.log(e);
-        }
+    async readUserMe() {
+        return await api.get<IUser>(`/users/me/`).then(response => response.data)
     },
+
+    async createUser(registerForm?: IUserCreate) {
+        return await openApi.post<IUser>('/users/', registerForm).then(response => response.data)
+    },
+
+    async login(loginForm?: IUserUpdate) {
+        return await openApi.post<IToken>('/login', loginForm).then(response => response.data)
+    },
+
 }
-
 

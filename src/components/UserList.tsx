@@ -3,6 +3,7 @@ import { useTypedSelector } from "../hooks/useTypedSelector";
 import { useActions } from "../hooks/useActions";
 import { NavLink } from "react-router-dom";
 import PageTitle from "./UI/PageTitle";
+import { IUser } from "../types/user";
 
 const UserList: React.FC = () => {
     const { users, error, loading } = useTypedSelector((state) => state.users);
@@ -31,20 +32,20 @@ const UserList: React.FC = () => {
                     <span className="p-4">Is Superuser</span>
                     <span className="p-4 absolute right-0">Edit</span>
                 </div>
-                { users.map((user) => (
-                <NavLink to={`/users/${user.id}`}>
-                <div 
-                    key={user.id} 
-                    className="grid grid-cols-6 gap-4 p-2 bg-white hover:bg-gray-50"
-                >
-                    <span className="p-4">{user.id}</span>
-                    <span className="p-4">{user.email}</span>
-                    <span className="p-4">{user.name}</span>
-                    <span className="p-4">{String(user.is_active)}</span>
-                    <span className="p-4">{String(user.is_superuser)}</span>
-                    <span className="p-4 absolute right-0">Edit</span>
-                </div>
-                </NavLink>
+                {users.map((user: IUser) => (
+                    <NavLink to={`/users/${user.id}`}>
+                        <div 
+                            key={user.id} 
+                            className="grid grid-cols-6 gap-4 p-2 bg-white hover:bg-gray-50"
+                        >
+                            <span className="p-4">{user.id}</span>
+                            <span className="p-4">{user.email}</span>
+                            <span className="p-4">{user.name}</span>
+                            <span className="p-4">{String(user.is_active)}</span>
+                            <span className="p-4">{String(user.is_superuser)}</span>
+                            <span className="p-4 absolute right-0">Edit</span>
+                        </div>
+                    </NavLink>
                 ))}
             </div>
         </>

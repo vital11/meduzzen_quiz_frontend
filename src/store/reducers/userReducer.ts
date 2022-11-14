@@ -23,7 +23,7 @@ export const usersReducer = (state = initialUsersState, action: UsersAction): Us
 
 
 const initialUserState: UserState = {
-    user: {},
+    user: {} as IUser,
     isAuth: false
 }
 
@@ -40,7 +40,7 @@ export const userReducer = (state = initialUserState, action: UserAction): UserS
             localStorage.removeItem("auth_token_type")
             return {
                 ...state,
-                user: {},
+                user: {} as IUser,
                 isAuth: false
             }
         default:
@@ -49,4 +49,4 @@ export const userReducer = (state = initialUserState, action: UserAction): UserS
 }
 
 export const setUser = (user: IUser) => ({type: UserActionTypes.SET_USER, payload: user})
-export const logout = () => ({type: UserActionTypes.LOGOUT})
+export const logoutUser = () => ({type: UserActionTypes.LOGOUT})

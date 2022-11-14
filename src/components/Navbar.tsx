@@ -1,12 +1,24 @@
 import { NavLink } from "react-router-dom";
+import { useAuth0 } from "@auth0/auth0-react";
+
 import { useAppDispatch } from "../hooks/useAppDispatch";
 import { useTypedSelector } from "../hooks/useTypedSelector";
-import { logout } from "../store/reducers/userReducer";
+import { logoutUser } from "../store/reducers/userReducer";
 
 
-const Navbar = () => {
-	const isAuth = useTypedSelector((state) => state.user.isAuth);
+const Navbar: React.FC = () => {
+	const { logout } = useAuth0();
+	const { user, isAuth } = useTypedSelector((state) => state.user);
 	const dispatch = useAppDispatch()
+
+	async function onClickHandler() {
+        try {
+			dispatch(logoutUser())
+			logout({ returnTo: window.location.origin })
+        } catch (e) {
+            console.log(e)
+        }
+    }
 
 	return (
 		<>
@@ -15,11 +27,10 @@ const Navbar = () => {
 				<span className="flex items-center pl-2">
 					<NavLink to="/"> Home </NavLink>
 				</span>
-				<span className="text-center mx-5">
-					<NavLink to="/users/me"> User Me </NavLink>
-				</span>
-
 				{ isAuth && <div className="flex items-center">
+					<span className="text-center mx-5">
+						<NavLink to="/users/me/"> User Me </NavLink>
+					</span>
 					<span className="text-center mx-5">
 						<NavLink to="/users"> Users </NavLink>
 					</span>
@@ -27,19 +38,22 @@ const Navbar = () => {
 				<div className="flex items-center">
 					{ !isAuth ? 
 					<>
-					<button className="text-center mx-5 hover:text-amber-400">
-						<NavLink to="/login"> Login </NavLink>
-					</button>
-					<button className="rounded-md bg-amber-400 px-10 py-2 text-white hover:bg-amber-300">
-						<NavLink to="/signup"> Sign Up </NavLink>
-					</button> 
+						<button className="text-center mx-5 hover:text-amber-400">
+							<NavLink to="/login"> Sign In </NavLink>
+						</button>
+						<button className="rounded-md bg-amber-400 px-10 py-2 text-white hover:bg-amber-300">
+							<NavLink to="/signup"> Sign Up </NavLink>
+						</button> 
 					</>
 					:
-					<button 
-						className="text-center mx-5 hover:text-amber-400" 
-						onClick={() => dispatch(logout())}
-					>	Logout
-					</button>
+					<>
+						<span className="text-center mx-5 text-gray-400 hover:none"> {`Hello, ${user.email}`} </span>
+						<button 
+							className="text-center mx-5 hover:text-amber-400" 
+							onClick={() => onClickHandler()}
+						>	Logout
+						</button>
+						</>
 					}
 				</div>
 			</div>

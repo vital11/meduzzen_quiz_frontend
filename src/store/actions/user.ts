@@ -1,10 +1,8 @@
 import { Dispatch } from "redux"
-import { api, openApiFormData } from "../../api";
 import { userAPI } from "../../api/userAPI";
-import { IToken, UserAction } from "../../types/user";
-import { IUser, UsersAction, UsersActionTypes } from "../../types/user";
+import { UserAction } from "../../types/user";
+import { UsersAction, UsersActionTypes } from "../../types/user";
 import { setUser } from "../reducers/userReducer";
-import { toast } from "react-toastify";
 
 
 export const fetchUsers = () => {
@@ -24,36 +22,16 @@ export const fetchUsers = () => {
 }
 
 
-interface FormData {
-    username: string | Blob;
-    password: string | Blob;
-}
-
-export const login = (loginForm: FormData) => {
+export const authenticate = () => {
     return async (dispatch: Dispatch<UserAction>) => {
         try {
-            const response = await openApiFormData.post<IToken>('/login', loginForm)
-            localStorage.setItem("auth_token", response.data.access_token)
-            localStorage.setItem("auth_token_type", response.data.token_type)
-
-            const user = await api.get<IUser>("/users/me/")
-            dispatch(setUser(user.data))
-            toast.success(user.status)
+            const data = await userAPI.readUserMe()
+            dispatch(setUser(data))
         } catch (e: any) {
-            toast.error(e.response.status)
+            console.log(e)
+            localStorage.removeItem('auth_token')
+            localStorage.removeItem('auth_token_type')
         }
     }
 }
 
-export const auth = () => {
-    return async (dispatch: Dispatch<UserAction>) => {
-        try {
-            const response = await api.get<IUser>("/users/me/")
-            dispatch(setUser(response.data))
-        } catch (e: any) {
-            toast.error(e.response.status)
-            localStorage.removeItem("auth_token")
-            localStorage.removeItem("auth_token_type")
-        }
-    }
-}
