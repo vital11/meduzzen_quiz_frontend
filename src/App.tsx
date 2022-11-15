@@ -1,28 +1,61 @@
-import { Route, Routes } from "react-router-dom";
-import { Auth0Provider } from "@auth0/auth0-react";
+import { Navigate, Route, Routes } from "react-router-dom";
+import { useEffect } from "react";
+import { useAuth0 } from '@auth0/auth0-react';
+import { toast } from "react-toastify";
 
-import UserList from "./pages/UserList";
+import { useTypedSelector } from "./hooks/useTypedSelector";
+import { useAppDispatch } from "./hooks/useAppDispatch";
+import { authenticate } from "./store/actions/user";
+import { addAccessTokenInterceptor } from "./api";
+import Layout from "./components/Layout";
+import Login from "./components/forms/Login";
+import UserList from "./components/UserList";
+import UserProfile from "./components/UserProfile";
+import UserMe from "./components/UserMe";
 import { Home } from "./pages/Home";
-
-const DOMAIN: string = process.env.REACT_APP_AUTH0_DOMAIN!;
-const CLIENT_ID: string = process.env.REACT_APP_AUTH0_CLIENT_ID!;
-const AUDIUENCE: string = process.env.REACT_APP_AUTH0_AUDIUENCE!;
+import Register from "./components/forms/Register";
 
 function App() {
-  return (
-    <Auth0Provider
-      domain={DOMAIN}
-      clientId={CLIENT_ID}
-      audience={AUDIUENCE}
-      redirectUri={window.location.origin}
-      scope="read:current_user update:current_user_metadata"
-    >
-      <Routes>
-        <Route path="/users" element={<UserList />} />
-        <Route path="/" element={<Home />} />
-      </Routes>
-    </Auth0Provider>
-  );
+	const { user, isAuth } = useTypedSelector((state) => state.user);
+	const dispatch = useAppDispatch();
+	const { getAccessTokenSilently, error } = useAuth0()
+
+	useEffect(() => {
+		addAccessTokenInterceptor(getAccessTokenSilently)
+	}, [getAccessTokenSilently])
+
+	useEffect(() => {
+		!isAuth && dispatch(authenticate())
+	}, [user])
+
+
+	if (error) {
+		toast.error("Authentication Error")
+	}
+
+	return (
+
+		<Layout>
+			{!isAuth ?
+			<Routes>
+				<Route path="/signup" element={<Register />} />
+				<Route path="/login" element={<Login />} />
+				<Route path="/" element={<Home />} />
+				<Route path="*" element={<Navigate replace to="/" />} />
+			</Routes>
+			:
+			<Routes>
+				<Route path="/users" element={<UserList />} />
+				<Route path="/users/:id" element={<UserProfile />} />
+				<Route path="/users/me/" element={<UserMe />} />
+				<Route path="/" element={<Home />} />
+				<Route path="*" element={<Navigate replace to="/" />} />
+			</Routes>
+			}
+		</Layout>
+
+	)
 }
 
 export default App;
+

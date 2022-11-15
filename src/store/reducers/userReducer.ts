@@ -1,21 +1,52 @@
 import { UserAction, UserState, UserActionTypes } from '../../types/user'
+import { UsersAction, UsersState, UsersActionTypes, IUser } from '../../types/user'
 
 
-const initialState: UserState = {
+const initialUsersState: UsersState = {
     users: [],
     loading: false,
     error: null
 }
 
-export const userReducer = (state = initialState, action: UserAction): UserState => {
+export const usersReducer = (state = initialUsersState, action: UsersAction): UsersState => {
     switch (action.type) {
-        case UserActionTypes.FETCH_USERS:
+        case UsersActionTypes.FETCH_USERS:
             return {loading: true, error: null, users: []}
-        case UserActionTypes.FETCH_USERS_SUCCESS:
+        case UsersActionTypes.FETCH_USERS_SUCCESS:
             return {loading: false, error: null, users: action.payload}
-        case UserActionTypes.FETCH_USERS_ERROR:
+        case UsersActionTypes.FETCH_USERS_ERROR:
             return {loading: false, error: action.payload, users: []}
         default:
             return state
     }
 }
+
+
+const initialUserState: UserState = {
+    user: {} as IUser,
+    isAuth: false
+}
+
+export const userReducer = (state = initialUserState, action: UserAction): UserState => {
+    switch (action.type) {
+        case UserActionTypes.SET_USER:
+            return {
+                ...state,
+                user: action.payload,
+                isAuth: true
+            }
+        case UserActionTypes.LOGOUT:
+            localStorage.removeItem("auth_token")
+            localStorage.removeItem("auth_token_type")
+            return {
+                ...state,
+                user: {} as IUser,
+                isAuth: false
+            }
+        default:
+            return state
+    }
+}
+
+export const setUser = (user: IUser) => ({type: UserActionTypes.SET_USER, payload: user})
+export const logoutUser = () => ({type: UserActionTypes.LOGOUT})

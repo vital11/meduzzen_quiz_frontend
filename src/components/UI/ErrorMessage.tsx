@@ -1,10 +1,7 @@
-
 interface ErrorMessageProps {
-  error: string
+	error: string
 }
 
-export function ErrorMessage({ error }: ErrorMessageProps) {
-  return (
-    <p className="text-center text-red-600">{ error }</p>
-  )
+export default function ErrorMessage({ error }: ErrorMessageProps) {
+	return <p className="w-full py-3 text-center bg-red-100">{ error }</p>;
 }
