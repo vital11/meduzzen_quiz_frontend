@@ -6,7 +6,7 @@ import { IUserUpdate } from "../../types/user"
 import LoginButton from "../UI/LoginButton"
 
 
-export default function Login2() {
+export default function Login() {
     const { register, handleSubmit, formState: { errors, isValid } } = useForm<IUserUpdate>({ mode: 'onChange' })
 	const navigate = useNavigate()
 

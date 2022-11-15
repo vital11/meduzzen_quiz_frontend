@@ -9,7 +9,7 @@ import LoginButton from '../UI/LoginButton'
 import Modal from '../UI/Modal'
 
 
-export default function Register2() {
+export default function Register() {
     const { register, watch, getValues, handleSubmit, formState: { errors, isValid } } = useForm({ mode: 'onChange' })
     const [user, setUser] = useState<IUser>()
     const [modal, setModal] = useState(false)

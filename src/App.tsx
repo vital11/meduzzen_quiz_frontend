@@ -25,10 +25,9 @@ function App() {
 	}, [getAccessTokenSilently])
 
 	useEffect(() => {
-		setTimeout(() => {
-			dispatch(authenticate())
-		}, 500)
-	}, [])
+		!isAuth && dispatch(authenticate())
+	}, [user])
+
 
 	if (error) {
 		toast.error("Authentication Error")
