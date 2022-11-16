@@ -1,30 +1,29 @@
+import { useAuth0 } from "@auth0/auth0-react"
 import { useState } from "react"
-import { useParams, useNavigate } from "react-router-dom"
 import { AxiosError } from "axios"
 
 import { userAPI } from "../api/userAPI"
 import { IUser } from "../types/user"
+import { useAppDispatch } from "../hooks/useAppDispatch"
+import { logoutUser } from "../store/reducers/userReducer"
 import Modal from "../components/UI/Modal"
 
 
-interface Params {
-    id: string;
-}   
-
-const UserDelete = () => {
-    const {id} = useParams<keyof Params>() as Params
+export default function UserMeDelete() {
+    const { logout } = useAuth0();
+    const dispatch = useAppDispatch()
     const [user, setUser] = useState<IUser>()
     const [modal, setModal] = useState(false)
-    const navigate = useNavigate()
-    
-    async function clickHandler(id: string) {
+
+    async function clickHandler() {
         try {
-            const data = await userAPI.deleteUser(id)
+            const data = await userAPI.deleteUserMe()
             setUser(data)
             setModal(true)
             setTimeout(() => {
-                navigate('/users')
-            }, 2000)
+                dispatch(logoutUser())
+                logout({ returnTo: window.location.origin })
+            }, 3000)
         } catch (e) {
             const error = e as AxiosError
             console.log(error)
@@ -35,7 +34,7 @@ const UserDelete = () => {
         <>
             { modal && 
             <Modal title="" onClose={() => setModal(false)}>
-                <p> User Account Email <span style={{ fontWeight: 'bold'}}> {user?.email} </span> deleted successfully</p>
+                <p> Your Account Email <span style={{ fontWeight: 'bold'}}> {user?.email} </span> deleted successfully</p>
             </Modal> }
 
             <div className="w-[600px] m-5 p-10 rounded-xl bg-white">
@@ -45,7 +44,7 @@ const UserDelete = () => {
                 <button
                     type="submit"
                     className="w-full py-3 text-center text-lg text-white bg-red-300 rounded-lg hover:bg-red-200 active:bg-red-400 outline-none"
-                    onClick={() => clickHandler(id)}
+                    onClick={() => clickHandler()}
                 >   Delete
                 </button>
             </div>
@@ -53,7 +52,7 @@ const UserDelete = () => {
     )
 }
 
-export default UserDelete
+
 
 
 

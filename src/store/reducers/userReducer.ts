@@ -23,16 +23,16 @@ export const usersReducer = (state = initialUsersState, action: UsersAction): Us
 
 
 const initialUserState: UserState = {
-    user: {} as IUser,
+    currentUser: {} as IUser,
     isAuth: false
 }
 
-export const userReducer = (state = initialUserState, action: UserAction): UserState => {
+export const currentUserReducer = (state = initialUserState, action: UserAction): UserState => {
     switch (action.type) {
         case UserActionTypes.SET_USER:
             return {
                 ...state,
-                user: action.payload,
+                currentUser: action.payload,
                 isAuth: true
             }
         case UserActionTypes.LOGOUT:
@@ -40,7 +40,7 @@ export const userReducer = (state = initialUserState, action: UserAction): UserS
             localStorage.removeItem("auth_token_type")
             return {
                 ...state,
-                user: {} as IUser,
+                currentUser: {} as IUser,
                 isAuth: false
             }
         default:
@@ -48,5 +48,5 @@ export const userReducer = (state = initialUserState, action: UserAction): UserS
     }
 }
 
-export const setUser = (user: IUser) => ({type: UserActionTypes.SET_USER, payload: user})
+export const setUser = (currentUser: IUser) => ({type: UserActionTypes.SET_USER, payload: currentUser})
 export const logoutUser = () => ({type: UserActionTypes.LOGOUT})

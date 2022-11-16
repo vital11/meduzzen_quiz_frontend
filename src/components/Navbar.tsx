@@ -8,7 +8,7 @@ import { logoutUser } from "../store/reducers/userReducer";
 
 const Navbar: React.FC = () => {
 	const { logout } = useAuth0();
-	const { user, isAuth } = useTypedSelector((state) => state.user);
+	const { currentUser, isAuth } = useTypedSelector((state) => state.user);
 	const dispatch = useAppDispatch()
 
 	async function onClickHandler() {
@@ -47,7 +47,7 @@ const Navbar: React.FC = () => {
 					</>
 					:
 					<>
-						<span className="text-center mx-5 text-gray-400 hover:none"> {`Hello, ${user.email}`} </span>
+						<span className="text-center mx-5 text-gray-400 hover:none"> {`Hello, ${currentUser.email}`} </span>
 						<button 
 							className="text-center mx-5 hover:text-amber-400" 
 							onClick={() => onClickHandler()}

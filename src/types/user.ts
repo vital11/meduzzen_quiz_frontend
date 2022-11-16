@@ -73,6 +73,6 @@ interface LogoutAction {
 export type UserAction = LoginAction | LogoutAction
 
 export interface UserState {
-    user: IUser,
+    currentUser: IUser,
     isAuth: boolean
 }
