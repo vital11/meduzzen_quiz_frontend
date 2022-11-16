@@ -21,11 +21,7 @@ export const userAPI = {
     },
 
     async deleteUser(id: string) {
-        return await api.delete<IUser>(`/sers/${id}`).then(response => response.data)
-    },
-
-    async readUserMe() {
-        return await api.get<IUser>(`/users/me/`).then(response => response.data)
+        return await api.delete<IUser>(`/users/${id}`).then(response => response.data)
     },
 
     async createUser(registerForm?: IUserCreate) {
@@ -34,6 +30,22 @@ export const userAPI = {
 
     async login(loginForm?: IUserUpdate) {
         return await openApi.post<IToken>('/login', loginForm).then(response => response.data)
+    },
+
+    async readUserMe() {
+        return await api.get<IUser>('/users/me/').then(response => response.data)
+    },
+
+    async updateUserMe(name: string, password: string) {
+        return await api.patch<IUser>('/users/me/', {
+            name, 
+            password
+        })
+        .then(response => response.data)
+    },
+
+    async deleteUserMe() {
+        return await api.delete<IUser>('/users/me/',).then(response => response.data)
     },
 
 }

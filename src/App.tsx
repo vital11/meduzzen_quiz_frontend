@@ -15,8 +15,9 @@ import UserMe from "./components/UserMe";
 import { Home } from "./pages/Home";
 import Register from "./components/forms/Register";
 
+
 function App() {
-	const { user, isAuth } = useTypedSelector((state) => state.user);
+	const { currentUser, isAuth } = useTypedSelector((state) => state.user);
 	const dispatch = useAppDispatch();
 	const { getAccessTokenSilently, error } = useAuth0()
 
@@ -26,8 +27,7 @@ function App() {
 
 	useEffect(() => {
 		!isAuth && dispatch(authenticate())
-	}, [user])
-
+	}, [currentUser])
 
 	if (error) {
 		toast.error("Authentication Error")
@@ -41,7 +41,6 @@ function App() {
 				<Route path="/signup" element={<Register />} />
 				<Route path="/login" element={<Login />} />
 				<Route path="/" element={<Home />} />
-				<Route path="*" element={<Navigate replace to="/" />} />
 			</Routes>
 			:
 			<Routes>
