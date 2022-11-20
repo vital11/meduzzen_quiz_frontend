@@ -48,5 +48,5 @@ export const currentUserReducer = (state = initialUserState, action: UserAction)
     }
 }
 
-export const setUser = (currentUser: IUser) => ({type: UserActionTypes.SET_USER, payload: currentUser})
-export const logoutUser = () => ({type: UserActionTypes.LOGOUT})
+export const setUserTC = (currentUser: IUser) => ({type: UserActionTypes.SET_USER, payload: currentUser})
+export const logoutTC = () => ({type: UserActionTypes.LOGOUT})

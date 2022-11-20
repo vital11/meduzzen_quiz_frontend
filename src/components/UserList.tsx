@@ -23,6 +23,7 @@ const UserList: React.FC = () => {
     return (
         <>
             <PageTitle title="Users List"/>
+            
             <div className="w-full relative">
                 <div className="grid grid-cols-6 gap-4 p-2 font-medium bg-gray-200">
                     <span className="p-4">ID</span>
@@ -33,19 +34,17 @@ const UserList: React.FC = () => {
                     <span className="p-4 absolute right-0">Edit</span>
                 </div>
                 {users.map((user: IUser) => (
-                    <NavLink to={`/users/${user.id}`}>
-                        <div 
-                            key={user.id} 
-                            className="grid grid-cols-6 gap-4 p-2 bg-white hover:bg-gray-50"
-                        >
-                            <span className="p-4">{user.id}</span>
-                            <span className="p-4">{user.email}</span>
-                            <span className="p-4">{user.name}</span>
-                            <span className="p-4">{String(user.is_active)}</span>
-                            <span className="p-4">{String(user.is_superuser)}</span>
-                            <span className="p-4 absolute right-0">Edit</span>
-                        </div>
-                    </NavLink>
+                    <div 
+                        key={user.id} 
+                        className="grid grid-cols-6 gap-4 p-2 bg-white hover:bg-gray-50"
+                    >   
+                        <span className="p-4">{ user.id }</span>
+                        <span className="p-4 text-amber-400"><NavLink to={`/users/${user.id}`}>{ user.email }</NavLink></span>
+                        <span className="p-4">{ user.name }</span>
+                        <span className="p-4">{ String(user.is_active) }</span>
+                        <span className="p-4">{ String(user.is_superuser) }</span>
+                        <span className="p-4 absolute right-0">Edit</span>
+                    </div>
                 ))}
             </div>
         </>

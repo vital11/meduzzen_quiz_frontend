@@ -3,36 +3,46 @@ import { useNavigate } from "react-router-dom"
 import { AxiosError } from 'axios'
 import { useForm } from 'react-hook-form'
 
-import { IUser } from "../../types/user"
-import { userAPI } from '../../api/userAPI'
-import LoginButton from '../UI/LoginButton'
-import Modal from '../UI/Modal'
+import { IUser } from "../types/user"
+import { userAPI } from '../api/userAPI'
+import { ErrorMessage, Loader } from './UI/Messages'
+import LoginButton from './UI/LoginButton'
+import Modal from './UI/Modal'
 
 
 export default function Register() {
     const { register, watch, getValues, handleSubmit, formState: { errors, isValid } } = useForm({ mode: 'onChange' })
     const [user, setUser] = useState<IUser>()
+    const [loading, setLoading] = useState(false)
+    const [error, setError] = useState('')
     const [modal, setModal] = useState(false)
     const navigate = useNavigate()
 
     const onSubmit = handleSubmit(( data ) => {
         (async () => {
             try {
+                setError('')
+                setLoading(true)
                 const user = await userAPI.createUser({ email: data.email, password: data.password })
                 setUser(user)
                 setModal(true)
                 setTimeout(() => {
                     navigate('/login')
                 }, 3000)
+                setLoading(false)
             } catch (e: unknown) {
                 const error = e as AxiosError
-                console.log(error.message)
+                setLoading(false)
+                setError(error.message)
             }
         })()
     })
 
     return (
         <>
+            { loading && <Loader /> }
+            { error && <ErrorMessage error={error} /> }
+
             {modal && <Modal title="" onClose={() => setModal(false)}>
                 <p> Account with Email <span style={{ fontWeight: 'bold'}}> {user?.email} </span> created successfully.</p>
                 <p> Login to Your Account</p>

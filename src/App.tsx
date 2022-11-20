@@ -7,17 +7,19 @@ import { useTypedSelector } from "./hooks/useTypedSelector";
 import { useAppDispatch } from "./hooks/useAppDispatch";
 import { authenticate } from "./store/actions/user";
 import { addAccessTokenInterceptor } from "./api";
-import Layout from "./components/Layout";
-import Login from "./components/forms/Login";
+import Layout from "./components/UI/Layout";
+import Login from "./components/Login";
 import UserList from "./components/UserList";
-import UserProfile from "./components/UserProfile";
-import UserMe from "./components/UserMe";
 import { Home } from "./pages/Home";
-import Register from "./components/forms/Register";
+import Register from "./components/Register";
+import Dashboard from "./components/Dashboard";
+import UserDetail from "./components/UserDetail";
+import CompanyList from "./components/CompanyList";
+import CompanyDetail from "./components/CompanyDetail";
 
 
 function App() {
-	const { currentUser, isAuth } = useTypedSelector((state) => state.user);
+	const { currentUser, isAuth } = useTypedSelector((state) => state.user)
 	const dispatch = useAppDispatch();
 	const { getAccessTokenSilently, error } = useAuth0()
 
@@ -45,8 +47,10 @@ function App() {
 			:
 			<Routes>
 				<Route path="/users" element={<UserList />} />
-				<Route path="/users/:id" element={<UserProfile />} />
-				<Route path="/users/me/" element={<UserMe />} />
+				<Route path="/users/:id" element={<UserDetail />} />
+				<Route path="/companies" element={<CompanyList />} />
+				<Route path="/companies/:id" element={<CompanyDetail />} />
+				<Route path="/dashboard" element={<Dashboard />} />
 				<Route path="/" element={<Home />} />
 				<Route path="*" element={<Navigate replace to="/" />} />
 			</Routes>

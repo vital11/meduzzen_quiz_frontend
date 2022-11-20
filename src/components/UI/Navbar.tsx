@@ -1,9 +1,9 @@
 import { NavLink } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
 
-import { useAppDispatch } from "../hooks/useAppDispatch";
-import { useTypedSelector } from "../hooks/useTypedSelector";
-import { logoutUser } from "../store/reducers/userReducer";
+import { useAppDispatch } from "../../hooks/useAppDispatch";
+import { useTypedSelector } from "../../hooks/useTypedSelector";
+import { logoutTC } from "../../store/reducers/userReducer";
 
 
 const Navbar: React.FC = () => {
@@ -13,7 +13,7 @@ const Navbar: React.FC = () => {
 
 	async function onClickHandler() {
         try {
-			dispatch(logoutUser())
+			dispatch(logoutTC())
 			logout({ returnTo: window.location.origin })
         } catch (e) {
             console.log(e)
@@ -29,10 +29,13 @@ const Navbar: React.FC = () => {
 				</span>
 				{ isAuth && <div className="flex items-center">
 					<span className="text-center mx-5">
-						<NavLink to="/users/me/"> User Me </NavLink>
+						<NavLink to="/dashboard"> Dashboard </NavLink>
 					</span>
 					<span className="text-center mx-5">
 						<NavLink to="/users"> Users </NavLink>
+					</span>
+					<span className="text-center mx-5">
+						<NavLink to="/companies"> Companies </NavLink>
 					</span>
 				</div> }
 				<div className="flex items-center">

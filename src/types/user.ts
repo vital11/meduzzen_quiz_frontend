@@ -16,11 +16,11 @@ export interface IUserUpdate {
 }
 
 export interface IUserCreate {
-    email?: string;
+    email: string;
     name?: string;
     is_active?: boolean;
     is_superuser?: boolean;
-    password?: string;
+    password: string;
 }
 
 export interface UsersState {

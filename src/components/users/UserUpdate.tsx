@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom"
 import { AxiosError } from "axios"
 import { userAPI } from "../../api/userAPI"
 import Input from "../UI/Input"
+import { ErrorMessage, Loader } from "../UI/Messages"
 
 
 interface Params {
@@ -13,28 +14,40 @@ export default function UserUpdate() {
     const {id} = useParams<keyof Params>() as Params
     const [name, setName] = useState("")
     const [password, setPassword] = useState("")
+    const [loading, setLoading] = useState(false)
+    const [error, setError] = useState('')
     
     async function clickHandler() {
         try {
-            const data = await userAPI.updateUser(id, name, password)
+            setError('')
+            setLoading(true)
+            const data = await userAPI.updateUser(id, {
+                name: name,
+                password: password
+            })
+            setLoading(false)
         } catch (e) {
             const error = e as AxiosError
-            console.log(error)
+            setLoading(false)
+            setError(error.message)
         }
     }
 
     return (
         <>
-            <div className="w-[600px] m-5 p-10 rounded-xl bg-white">
-                <p className="w-80 text-center mb-8 font-medium tracking-wide cursor-pointer mx-auto">
-                    Change Your Name or Password
+            { loading && <Loader /> }
+            { error && <ErrorMessage error={error} /> }
+            
+            <div className="p-10 rounded-2xl bg-white">
+                <p className="text-center mb-8 font-medium tracking-wide cursor-pointer mx-auto">
+                    Update Name or Password
                 </p>
                 <form className="space-y-4">
-                    <Input value={name} setValue={setName} type="name" placeholder="Name"  />
+                    <Input value={name} setValue={setName} type="name" placeholder="Name" />
                     <Input value={password} setValue={setPassword} type="password" placeholder="Password" />
                     <button
                         type="submit"
-                        className="w-full py-3 text-lg text-white bg-green-500 rounded-lg hover:bg-green-400 active:bg-green-600 outline-none"
+                        className="w-full py-3 text-lg text-white bg-teal-300 rounded-lg hover:bg-teal-200 active:bg-teal-400 outline-none"
                         onClick={() => clickHandler()}
                     >   Update
                     </button>

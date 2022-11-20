@@ -2,7 +2,7 @@ import { Dispatch } from "redux"
 import { userAPI } from "../../api/userAPI";
 import { UserAction } from "../../types/user";
 import { UsersAction, UsersActionTypes } from "../../types/user";
-import { setUser } from "../reducers/userReducer";
+import { setUserTC } from "../reducers/userReducer";
 
 
 export const fetchUsers = () => {
@@ -26,7 +26,7 @@ export const authenticate = () => {
     return async (dispatch: Dispatch<UserAction>) => {
         try {
             const data = await userAPI.readUserMe()
-            dispatch(setUser(data))
+            dispatch(setUserTC(data))
         } catch (e: any) {
             console.log(e)
             localStorage.removeItem('auth_token')
