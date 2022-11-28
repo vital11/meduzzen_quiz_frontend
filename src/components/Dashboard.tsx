@@ -1,7 +1,12 @@
 import { useState } from "react"
 import { useTypedSelector } from "../hooks/useTypedSelector"
+import { ICompanyMembership, MembershipTypes } from "../types/companies"
+import CompaniesMeMember from "./companies/CompaniesMeMember"
+import CompaniesMeOwner from "./companies/CompaniesMeOwner"
 import CompanyCreate from "./companies/CompanyCreate"
-import Modal from "./UI/Modal"
+import CompanyMembershipList from "./companies/CompanyMembershipList"
+
+
 import PageTitle from "./UI/PageTitle"
 import UserMe from "./users/UserMe"
 import UserMeDelete from "./users/UserMeDelete"
@@ -10,7 +15,14 @@ import UserMeUpdate from "./users/UserMeUpdate"
 
 export default function Dashboard() {
     const { currentUser, isAuth } = useTypedSelector((state) => state.user)
-    const [modal, setModal] = useState(false)
+
+    const userInvitesParams: ICompanyMembership = {
+        membership_type: MembershipTypes.INVITE,
+    }
+
+    const userRequestParams: ICompanyMembership = {
+        membership_type: MembershipTypes.REQUEST,
+    }
 
 	return (
         <>
@@ -23,9 +35,11 @@ export default function Dashboard() {
                     <UserMeDelete />
                     <CompanyCreate />
                 </div>
-                <div className="basis-1/4 bg-white"></div>
-                <div className="basis-1/4"></div>
-                <div className="basis-1/4"></div>
+                <div className="basis-3/4 bg-white">
+                    <CompaniesMeOwner />
+                    <CompanyMembershipList title="User Me Invites" params={ userInvitesParams } />
+                    <CompanyMembershipList title="User Me Requests" params={ userRequestParams } />
+                </div>
             </div>
         </>
 	)

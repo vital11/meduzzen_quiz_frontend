@@ -4,7 +4,7 @@ import { AxiosError } from "axios"
 import { userAPI } from "../../api/userAPI"
 import { useTypedSelector } from "../../hooks/useTypedSelector"
 import { useAppDispatch } from "../../hooks/useAppDispatch"
-import { setUserTC } from "../../store/reducers/userReducer"
+import { setUserAC } from "../../store/reducers/userReducer"
 import { ErrorMessage, Loader } from "../UI/Messages"
 
 
@@ -23,7 +23,7 @@ export default function UserMe() {
             setError('')
             setLoading(true)
             const data = await userAPI.readUserMe()
-            dispatch(setUserTC(data))
+            dispatch(setUserAC(data))
             setLoading(false)
         } catch (e: unknown) {
             const error = e as AxiosError
@@ -39,7 +39,7 @@ export default function UserMe() {
 
             <div className="p-10 rounded-2xl bg-grey-200 space-y-8">
                 <p className="mx-auto text-center font-medium tracking-wide cursor-pointer">
-                    Personal Info
+                    User Me
                 </p>
                 <div className="flex justify-between">
                     <span> Email </span>

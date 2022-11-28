@@ -45,7 +45,7 @@ export default function CompanyDelete() {
 
             { modal && 
             <Modal title="" onClose={() => setModal(false)}>
-                <p> Company <span style={{ fontWeight: 'bold'}}> {company?.name} </span> deleted successfully</p>
+                <p> Company <span style={{ fontWeight: 'bold'}}> {company?.comp_name} </span> deleted successfully</p>
             </Modal> }
 
             <div className="p-10 rounded-2xl bg-white">

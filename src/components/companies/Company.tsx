@@ -28,9 +28,9 @@ export default function Company() {
             const data = await companyAPI.readCompany(id)
             setCompany(data)
             setLoading(false)
-        } catch (e: unknown) {
-            const error = e as AxiosError
+        } catch (e) {
             setLoading(false)
+            const error = e as AxiosError
             setError(error.message)
         }
     }
@@ -46,11 +46,11 @@ export default function Company() {
                 </p>
                 <div className="flex justify-between">
                     <span> Name </span> 
-                    <span>{ company?.name }</span>
+                    <span>{ company?.comp_name }</span>
                 </div>  
                 <div className="flex justify-between">
                     <span> Description </span>
-                    <span>{ company?.description }</span>
+                    <span>{ company?.comp_description }</span>
                 </div>
                 <div className="flex justify-between">
                     <span> Is Private </span>
@@ -62,7 +62,7 @@ export default function Company() {
                 </div>
                 <div className="flex justify-between">
                     <span> ID </span>
-                    <span>{ company?.id }</span>
+                    <span>{ company?.comp_id }</span>
                 </div>
             </div>
         </>

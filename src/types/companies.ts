@@ -1,21 +1,22 @@
+import { IUser } from "./user";
 
 export interface ICompany {
-    id?: number;
-    name: string;
-    description: string
+    comp_id?: number;
+    comp_name: string;
+    comp_description: string
     is_private: boolean;
     owner_id: number;
 }
 
 export interface ICompanyCreate {
-    name: string;
-    description: string
+    comp_name: string;
+    comp_description: string
     is_private: boolean;
 }
 
 export interface ICompanyUpdate {
-    name?: string;
-    description?: string
+    comp_name?: string;
+    comp_description?: string
     is_private?: boolean;
 }
 
@@ -47,4 +48,16 @@ interface FetchCompaniesErrorAction {
 
 export type CompaniesAction = FetchCompaniesAction | FetchCompaniesSuccessAction | FetchCompaniesErrorAction
 
+
+export enum MembershipTypes {
+    REQUEST="request",
+    INVITE="invite"
+}
+
+export interface ICompanyMembership {
+    membership_id?: number
+    user_id?: number
+    company_id?: number
+    membership_type?: MembershipTypes
+}
 

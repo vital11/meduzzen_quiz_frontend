@@ -28,7 +28,7 @@ export default function Login() {
                     window.location.reload()
                 }, 100)
                 navigate('/')
-            } catch (e: unknown) {
+            } catch (e) {
                 const error = e as AxiosError
                 setLoading(false)
                 setError(error.message)

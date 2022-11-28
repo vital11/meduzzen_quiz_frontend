@@ -3,7 +3,7 @@ import { AxiosError } from "axios"
 import { userAPI } from "../../api/userAPI"
 import Input from "../UI/Input"
 import { useAppDispatch } from "../../hooks/useAppDispatch"
-import { setUserTC } from "../../store/reducers/userReducer"
+import { setUserAC } from "../../store/reducers/userReducer"
 import { ErrorMessage, Loader } from "../UI/Messages"
 
 
@@ -22,7 +22,7 @@ export default function UserMeUpdate() {
                 name: name,
                 password: password
             })
-            dispatch(setUserTC(data))
+            dispatch(setUserAC(data))
             setLoading(false)
         } catch (e) {
             const error = e as AxiosError

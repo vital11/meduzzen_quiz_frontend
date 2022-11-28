@@ -24,8 +24,8 @@ export default function CompanyUpdate() {
                 setError('')
                 setLoading(true)
                 companyAPI.updateCompany(id, {
-                    name: data.name,
-                    description: data.description,
+                    comp_name: data.comp_name,
+                    comp_description: data.comp_description,
                     is_private: data.is_private,
                 })
                 setLoading(false)
@@ -53,18 +53,18 @@ export default function CompanyUpdate() {
                             type="text"
                             placeholder="Name"
                             className="block text-md py-3 px-5 rounded-lg w-full border outline-none focus:outline-none focus:border-amber-300 focus:ring-3 focus:ring-amber-300"
-                            {...register("name")}
+                            {...register("comp_name")}
                         />
-                        { errors.name && <p className="mt-2 text-red-300"> Enter valid email address </p> }
+                        { errors.comp_name && <p className="mt-2 text-red-300"> Enter valid email address </p> }
                     </>
                     <>
                         <input
                             type="text"
                             placeholder="Description"
                             className="block text-md py-3 px-5 rounded-lg w-full border outline-none focus:outline-none focus:border-amber-300 focus:ring-3 focus:ring-amber-300"
-                            {...register("description")}
+                            {...register("comp_description")}
                         />
-                        { errors.description && <p className="mt-2 text-red-300"> Password should contain at least one character </p> }
+                        { errors.comp_description && <p className="mt-2 text-red-300"> Password should contain at least one character </p> }
                     </>
                     <div className="flex flex-row items-center">
                         <input
