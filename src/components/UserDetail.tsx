@@ -1,24 +1,20 @@
-import { useTypedSelector } from "../hooks/useTypedSelector"
+import { useParams } from "react-router-dom"
 import PageTitle from "./UI/PageTitle"
 import User from "./users/User"
-import UserUpdate from "./users/UserUpdate"
-import UserDelete from "./users/UserDelete"
 
+
+interface Params { id: string }  
 
 export default function UserDetail() {
-    const { currentUser } = useTypedSelector((state) => state.user)
+    const { id } = useParams<keyof Params>() as Params
+    const user_id = Number(id)
 
     return (
         <>
             <PageTitle title="User Detail"/>
             <div className="flex flex-row bg-white">
                 <div className="basis-1/4 gap-14 space-y-5 p-5 bg-gray-200">
-                    <User />
-                    { currentUser.is_superuser &&
-                    <>
-                        <UserUpdate />
-                        <UserDelete />
-                    </> }
+                    <User id={ user_id } />
                 </div>
                 <div className="basis-3/4 bg-white"></div>
             </div>

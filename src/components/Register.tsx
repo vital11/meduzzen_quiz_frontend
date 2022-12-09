@@ -1,52 +1,30 @@
-import { useState } from 'react'
-import { useNavigate } from "react-router-dom"
-import { AxiosError } from 'axios'
+import { useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
-
-import { IUser } from "../types/user"
-import { userAPI } from '../api/userAPI'
+import { useTypedSelector } from '../hooks/useTypedSelector'
+import { useActions } from '../hooks/useActions'
 import { ErrorMessage, Loader } from './UI/Messages'
 import LoginButton from './UI/LoginButton'
-import Modal from './UI/Modal'
 
 
 export default function Register() {
     const { register, watch, getValues, handleSubmit, formState: { errors, isValid } } = useForm({ mode: 'onChange' })
-    const [user, setUser] = useState<IUser>()
-    const [loading, setLoading] = useState(false)
-    const [error, setError] = useState('')
-    const [modal, setModal] = useState(false)
+    const { user, error: { addUserError }, loading: { addUserLoading } } = useTypedSelector((state) => state.user)
+    const { addUser } = useActions()
     const navigate = useNavigate()
 
+	useEffect(() => {
+		user.email && navigate('/login')
+	}, [user])
+
     const onSubmit = handleSubmit(( data ) => {
-        (async () => {
-            try {
-                setError('')
-                setLoading(true)
-                const user = await userAPI.createUser({ email: data.email, password: data.password })
-                setUser(user)
-                setModal(true)
-                setTimeout(() => {
-                    navigate('/login')
-                }, 3000)
-                setLoading(false)
-            } catch (e: unknown) {
-                const error = e as AxiosError
-                setLoading(false)
-                setError(error.message)
-            }
-        })()
+        addUser({ email: data.email, password: data.password })
     })
 
     return (
         <>
-            { loading && <Loader /> }
-            { error && <ErrorMessage error={error} /> }
-
-            {modal && <Modal title="" onClose={() => setModal(false)}>
-                <p> Account with Email <span style={{ fontWeight: 'bold'}}> {user?.email} </span> created successfully.</p>
-                <p> Login to Your Account</p>
-            </Modal>}
+            { addUserLoading && <Loader /> }
+            { addUserError && <ErrorMessage error={ addUserError.message } /> }
 
             <div className="w-[600px] p-10 rounded-xl bg-white absolute top-30 left-1/2 -translate-x-1/2 ">
                 <h1 className="text-3xl font-bold text-center mb-4 cursor-pointer">
@@ -108,5 +86,3 @@ export default function Register() {
         </>
 	)
 }
-
-

@@ -1,20 +1,21 @@
-import { AxiosError } from "axios"
-import { useState } from "react"
-import { ActionMeta } from "react-select"
 import AsyncSelect from "react-select/async"
-
+import { ActionMeta } from "react-select"
+import { useState } from "react"
 import { companyAPI } from "../../api/companyAPI"
-import { ICompany, MembershipTypes } from "../../types/companies"
+import { useActions } from "../../hooks/useActions"
+import { useTypedSelector } from "../../hooks/useTypedSelector"
+import { ICompany } from "../../types/company"
+import { MembershipTypes } from "../../types/membership"
 import { ErrorMessage, Loader } from "../UI/Messages"
 
 
 interface Option { label?: string, value?: number }
-interface CompanyInviteCreateProps { id: string }
+interface InviteCreateProps { id: string }
 
 
-export default function CompanyInviteCreate({ id }: CompanyInviteCreateProps) {
-    const [loading, setLoading] = useState(false)
-    const [error, setError] = useState('')
+export default function InviteCreate({ id }: InviteCreateProps) {
+    const { error: { addInviteError }, loading: { addInviteLoading }} = useTypedSelector((state) => state.membership)
+    const { addInvite } = useActions()
     const [companyID, setCompanyID] = useState<number>()
 
     const loadOptions = (searchValue: string, callback: (options: Option[]) => void): void => {
@@ -31,27 +32,18 @@ export default function CompanyInviteCreate({ id }: CompanyInviteCreateProps) {
         setCompanyID(selectedOption?.value)
     }
 
-    const sendInvite = async () => {
-        try {
-            setError('')
-            setLoading(true)
-            companyAPI.createMembership({
-                user_id: Number(id),
-                company_id: companyID,
-                membership_type: MembershipTypes.INVITE
-            })
-            setLoading(false)
-        } catch (e) {
-            setLoading(false)
-            const error = e as AxiosError
-            setError(error.message)
-        }
+    const handleClick = () => {
+        addInvite({
+            user_id: Number(id),
+            company_id: companyID,
+            membership_type: MembershipTypes.INVITE
+        })
     }
 
     return (
         <>
-            { loading && <Loader /> }
-            { error && <ErrorMessage error={error} /> }
+            { addInviteLoading && <Loader /> }
+            { addInviteError && <ErrorMessage error={ addInviteError.message} /> }
 
             <div className="p-10 rounded-2xl bg-white space-y-4">
                 <AsyncSelect 
@@ -65,7 +57,7 @@ export default function CompanyInviteCreate({ id }: CompanyInviteCreateProps) {
                 <button 
                     type="submit" 
                     className="w-full py-3 text-lg text-white bg-emerald-400 rounded-lg hover:bg-emerald-300 active:bg-emerald-500 outline-none"
-                    onClick={ sendInvite }
+                    onClick={ handleClick }
                 >   Invite
                 </button>
             </div>

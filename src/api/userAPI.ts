@@ -1,5 +1,5 @@
-import { api, openApi } from ".";
-import { IToken, IUser, IUserCreate, IUserUpdate } from "../types/user";
+import { api, openApi } from "."
+import { IUser, IUserCreate, IUserUpdate } from "../types/user"
 
 
 export const userAPI = {
@@ -8,24 +8,12 @@ export const userAPI = {
         return await api.get<IUser[]>('/users').then(response => response.data)
     },
 
-    async readUser(id: string) {
+    async readUser(id: number) {
         return await api.get<IUser>(`/users/${id}`).then(response => response.data)
     },
 
-    async updateUser(id: string, updateForm?: IUserUpdate) {
-        return await api.patch<IUser>(`/users/${id}`, updateForm).then(response => response.data)
-    },
-
-    async deleteUser(id: string) {
-        return await api.delete<IUser>(`/users/${id}`).then(response => response.data)
-    },
-
-    async createUser(registerForm?: IUserCreate) {
+    async createUser(registerForm: IUserCreate) {
         return await openApi.post<IUser>('/users/', registerForm).then(response => response.data)
-    },
-
-    async login(loginForm?: IUserCreate) {
-        return await openApi.post<IToken>('/login', loginForm).then(response => response.data)
     },
 
     async readUserMe() {
@@ -39,6 +27,4 @@ export const userAPI = {
     async deleteUserMe() {
         return await api.delete<IUser>('/users/me/').then(response => response.data)
     },
-
 }
-

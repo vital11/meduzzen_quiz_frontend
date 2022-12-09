@@ -1,7 +1,7 @@
 import { useState } from "react";
 
-import Counter from "../components/examples/Counter";
-import Modal from "../components/UI/Modal";
+import Counter from "./examples/Counter";
+import Modal from "./UI/Modal";
 
 
 export function Home() {

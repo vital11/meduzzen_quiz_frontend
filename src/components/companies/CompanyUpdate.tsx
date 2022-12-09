@@ -1,47 +1,25 @@
-import { AxiosError } from "axios"
-import { useState } from "react"
 import { useForm } from 'react-hook-form'
-import { useParams } from "react-router-dom"
 
-import { companyAPI } from "../../api/companyAPI"
-import { ICompanyUpdate } from "../../types/companies"
+import { useActions } from "../../hooks/useActions"
+import { useTypedSelector } from "../../hooks/useTypedSelector"
+import { ICompanyUpdate, CompanyProps } from "../../types/company"
 import { ErrorMessage, Loader } from "../UI/Messages"
 
 
-interface Params {
-    id: string;
-}   
-
-export default function CompanyUpdate() {
-    const {id} = useParams<keyof Params>() as Params
+export default function CompanyUpdate({ id }: CompanyProps) {
     const { register, handleSubmit, formState: { errors, isValid } } = useForm<ICompanyUpdate>({ mode: 'onChange' })
-    const [loading, setLoading] = useState(false)
-    const [error, setError] = useState('')
+    const { error: { updateCompanyError }, loading: { updateCompanyLoading } } = useTypedSelector((state) => state.company)
+    const { updateCompany } = useActions()
+
 
     const onSubmit = handleSubmit(( data ) => {
-        (async () => {
-            try {
-                setError('')
-                setLoading(true)
-                companyAPI.updateCompany(id, {
-                    comp_name: data.comp_name,
-                    comp_description: data.comp_description,
-                    is_private: data.is_private,
-                })
-                setLoading(false)
-                window.location.reload()
-            } catch (e: unknown) {
-                const error = e as AxiosError
-                setLoading(false)
-                setError(error.message)
-            }
-        })()
+        updateCompany(id, data)
     })
 
     return (
         <>
-            { loading && <Loader /> }
-            { error && <ErrorMessage error={error} /> }
+            { updateCompanyLoading && <Loader /> }
+            { updateCompanyError && <ErrorMessage error={ updateCompanyError.message } /> }
 
             <div className="p-10 rounded-2xl bg-white">
                 <p className="mx-auto text-center font-medium tracking-wide cursor-pointer mb-8">
@@ -87,6 +65,3 @@ export default function CompanyUpdate() {
         </>
 	)
 }
-
-
-

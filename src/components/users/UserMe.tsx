@@ -1,41 +1,21 @@
-import { useEffect, useState } from "react"
-import { AxiosError } from "axios"
-
-import { userAPI } from "../../api/userAPI"
+import { useEffect } from "react"
 import { useTypedSelector } from "../../hooks/useTypedSelector"
-import { useAppDispatch } from "../../hooks/useAppDispatch"
-import { setUserAC } from "../../store/reducers/userReducer"
+import { useActions } from "../../hooks/useActions"
 import { ErrorMessage, Loader } from "../UI/Messages"
 
 
 export default function UserMe() {
-    const [loading, setLoading] = useState(false)
-    const [error, setError] = useState('')
-    const { currentUser, isAuth } = useTypedSelector((state) => state.user)
-	const dispatch = useAppDispatch()
+    const { userMe, error: { fetchUserMeError }, loading: { fetchUserMeLoading }} = useTypedSelector((state) => state.user)
+    const { fetchUserMe } = useActions()
 
     useEffect(() => {
         fetchUserMe()
-    }, [isAuth])
-
-    async function fetchUserMe() {
-        try {
-            setError('')
-            setLoading(true)
-            const data = await userAPI.readUserMe()
-            dispatch(setUserAC(data))
-            setLoading(false)
-        } catch (e: unknown) {
-            const error = e as AxiosError
-            setLoading(false)
-            setError(error.message)
-        }
-    }
+    }, [])
 
     return (
         <>
-            { loading && <Loader /> }
-            { error && <ErrorMessage error={error} /> }
+            { fetchUserMeLoading && <Loader /> }
+            { fetchUserMeError && <ErrorMessage error={ fetchUserMeError.message } /> }
 
             <div className="p-10 rounded-2xl bg-grey-200 space-y-8">
                 <p className="mx-auto text-center font-medium tracking-wide cursor-pointer">
@@ -43,31 +23,25 @@ export default function UserMe() {
                 </p>
                 <div className="flex justify-between">
                     <span> Email </span>
-                    <span>{ currentUser?.email }</span>
+                    <span>{ userMe.email }</span>
                 </div>
                 <div className="flex justify-between">
                     <span> Name </span> 
-                    <span>{currentUser?.name }</span>
+                    <span>{ userMe.name }</span>
                 </div>  
                 <div className="flex justify-between">
                     <span> Is Active </span>
-                    <span>{ String(currentUser?.is_active) }</span>
+                    <span>{ String(userMe.is_active) }</span>
                 </div>
                 <div className="flex justify-between">
                     <span> Is Superuser </span>
-                    <span>{ String(currentUser?.is_superuser) }</span>
+                    <span>{ String(userMe.is_superuser) }</span>
                 </div>
                 <div className="flex justify-between">
                     <span> ID </span>
-                    <span>{ currentUser?.id }</span>
+                    <span>{ userMe.id }</span>
                 </div>
             </div>
         </>
     )
 }
-
-
-
-
-
-

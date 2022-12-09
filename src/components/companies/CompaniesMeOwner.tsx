@@ -3,7 +3,7 @@ import { NavLink } from "react-router-dom"
 import { AxiosError } from "axios"
 
 import { companyAPI } from "../../api/companyAPI"
-import { ICompany } from "../../types/companies"
+import { ICompany } from "../../types/company"
 import { ErrorMessage, Loader } from "../UI/Messages"
 
 

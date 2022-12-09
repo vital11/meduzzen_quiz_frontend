@@ -1,43 +1,28 @@
-import { AxiosError } from "axios"
 import { useState } from "react"
 import { useForm } from 'react-hook-form'
 
-import { companyAPI } from "../../api/companyAPI"
-import { ICompanyCreate } from "../../types/companies"
+import { useActions } from "../../hooks/useActions"
+import { useTypedSelector } from "../../hooks/useTypedSelector"
+import { ICompanyCreate } from "../../types/company"
 import { ErrorMessage, Loader } from "../UI/Messages"
 import Modal from "../UI/Modal"
 
 
 export default function CompanyCreate() {
     const { register, handleSubmit, formState: { errors, isValid } } = useForm<ICompanyCreate>({ mode: 'onChange' })
-    const [loading, setLoading] = useState(false)
-    const [error, setError] = useState('')
+    const { error: { addCompanyError }, loading: { addCompanyLoading } } = useTypedSelector((state) => state.company)
+    const { addCompany } = useActions()
     const [modal, setModal] = useState(false)
 
     const onSubmit = handleSubmit(( data ) => {
-        (async () => {
-            try {
-                setError('')
-                setLoading(true)
-                companyAPI.createCompany({
-                    comp_name: data.comp_name,
-                    comp_description: data.comp_description,
-                    is_private: data.is_private 
-                })
-                setLoading(false)
-                setModal(false)
-            } catch (e: unknown) {
-                setLoading(false)
-                const error = e as AxiosError
-                setError(error.message)
-            }
-        })()
+        addCompany(data)
+        setModal(false)
     })
 
     return (
         <>
-            { loading && <Loader /> }
-            { error && <ErrorMessage error={error} /> }
+            { addCompanyLoading && <Loader /> }
+            { addCompanyError && <ErrorMessage error={ addCompanyError.message } /> }
 
             { modal && <Modal title="" onClose={() => setModal(false)}>
                 <div className="p-10 rounded-2xl bg-white">
@@ -100,6 +85,3 @@ export default function CompanyCreate() {
         </>
 	)
 }
-
-
-

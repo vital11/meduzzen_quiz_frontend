@@ -1,32 +1,29 @@
-import { useState } from "react"
-import { useTypedSelector } from "../hooks/useTypedSelector"
-import { ICompanyMembership, MembershipTypes } from "../types/companies"
-import CompaniesMeMember from "./companies/CompaniesMeMember"
+import { MembershipTypes, MembershipParams } from "../types/membership"
 import CompaniesMeOwner from "./companies/CompaniesMeOwner"
 import CompanyCreate from "./companies/CompanyCreate"
-import CompanyMembershipList from "./companies/CompanyMembershipList"
-
-
+import MembershipList from "./membership/InviteList"
 import PageTitle from "./UI/PageTitle"
+import UserList from "./UserList"
 import UserMe from "./users/UserMe"
 import UserMeDelete from "./users/UserMeDelete"
 import UserMeUpdate from "./users/UserMeUpdate"
 
 
 export default function Dashboard() {
-    const { currentUser, isAuth } = useTypedSelector((state) => state.user)
 
-    const userInvitesParams: ICompanyMembership = {
+    const userInvites: MembershipParams = {
         membership_type: MembershipTypes.INVITE,
     }
 
-    const userRequestParams: ICompanyMembership = {
+    const userRequests: MembershipParams = {
         membership_type: MembershipTypes.REQUEST,
     }
 
 	return (
         <>
             <PageTitle title="Dashboard"/>
+
+            <UserList />
             
             <div className="flex flex-row bg-white">
                 <div className="basis-1/4 gap-14 space-y-5 p-5 bg-gray-200">
@@ -37,8 +34,8 @@ export default function Dashboard() {
                 </div>
                 <div className="basis-3/4 bg-white">
                     <CompaniesMeOwner />
-                    <CompanyMembershipList title="User Me Invites" params={ userInvitesParams } />
-                    <CompanyMembershipList title="User Me Requests" params={ userRequestParams } />
+                    <MembershipList title="Company Invites" params={ userInvites } />
+                    <MembershipList title="Company Requests" params={ userRequests } />
                 </div>
             </div>
         </>

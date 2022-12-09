@@ -1,31 +1,26 @@
-import React, { useEffect, useState } from "react";
-import { useTypedSelector } from "../hooks/useTypedSelector";
-import { useActions } from "../hooks/useActions";
-import { NavLink } from "react-router-dom";
-import PageTitle from "./UI/PageTitle";
-import { ICompany } from "../types/companies";
-import ButtonDropleft from "./UI/ButtonDropleft";
-import CompanyRequestCreate from "./companies/CompanyRequestCreate";
+import React, { useEffect } from "react"
+import { Link } from "react-router-dom"
+import { useTypedSelector } from "../hooks/useTypedSelector"
+import { useActions } from "../hooks/useActions"
+import { ICompany } from "../types/company"
+import RequestCreate from "./membership/RequestCreate"
+import PageTitle from "./UI/PageTitle"
+import { ErrorMessage, Loader } from "./UI/Messages"
 
 
 const CompanyList: React.FC = () => {
-    const { currentUser } = useTypedSelector((state) => state.user)
-    const { companies, error, loading } = useTypedSelector((state) => state.companies)
+    const { companies, company, error: { fetchCompaniesError }, loading: { fetchCompaniesLoading } } = useTypedSelector((state) => state.company)
     const { fetchCompanies } = useActions()
 
     useEffect(() => {
         fetchCompanies()
-    }, [])
-
-    if (loading) {
-        return <h1>Loading...</h1>
-    }
-    if (error) {
-        return <h1>{error}</h1>
-    }
+    }, [company])
 
     return (
         <>
+            { fetchCompaniesLoading && <Loader /> }
+            { fetchCompaniesError && <ErrorMessage error={ fetchCompaniesError.message } /> }
+
             <PageTitle title="Companies"/>
             <div className="w-full relative">
                 <div className="grid grid-cols-6 gap-4 p-2 font-medium bg-gray-200">
@@ -42,12 +37,14 @@ const CompanyList: React.FC = () => {
                         className="grid grid-cols-6 gap-4 p-2 bg-white hover:bg-gray-50"
                     >   
                         <span className="p-4">{ company.comp_id }</span>
-                        <span className="p-4 text-amber-400"><NavLink to={`/companies/${company.comp_id}`}>{ company.comp_name }</NavLink></span>
+                        <span className="p-4 text-amber-400">   
+                            <Link to={`/companies/${company.comp_id}`}>{ company.comp_name }</Link>
+                        </span>
                         <span className="p-4">{ company.comp_description }</span>
                         <span className="p-4">{ String(company.is_private) }</span>
                         <span className="p-4">{ company.owner_id }</span>
-                        <span className="px-5 absolute right-2">
-                            <CompanyRequestCreate id={`${company.comp_id}`} />
+                        <span className="px-5 flex justify-end">
+                            <RequestCreate id={`${company.comp_id}`} />
                         </span>
                     </div>
                 )) }
@@ -57,4 +54,3 @@ const CompanyList: React.FC = () => {
 }
 
 export default CompanyList
-

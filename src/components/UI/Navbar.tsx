@@ -1,23 +1,17 @@
-import { NavLink } from "react-router-dom";
-import { useAuth0 } from "@auth0/auth0-react";
-
-import { useAppDispatch } from "../../hooks/useAppDispatch";
-import { useTypedSelector } from "../../hooks/useTypedSelector";
-import { logoutTC } from "../../store/reducers/userReducer";
+import { NavLink } from "react-router-dom"
+import { useAuth0 } from "@auth0/auth0-react"
+import { useTypedSelector } from "../../hooks/useTypedSelector"
+import { useActions } from "../../hooks/useActions"
 
 
 const Navbar: React.FC = () => {
-	const { logout } = useAuth0();
-	const { currentUser, isAuth } = useTypedSelector((state) => state.user);
-	const dispatch = useAppDispatch()
+	const { currentUser, isAuth } = useTypedSelector((state) => state.auth)
+	const { logout: logoutAuth0 } = useAuth0()
+	const { logout } = useActions()
 
-	async function onClickHandler() {
-        try {
-			dispatch(logoutTC())
-			logout({ returnTo: window.location.origin })
-        } catch (e) {
-            console.log(e)
-        }
+	const handleClick = () => {
+		logout()
+		logoutAuth0({ returnTo: window.location.origin })
     }
 
 	return (
@@ -53,7 +47,7 @@ const Navbar: React.FC = () => {
 						<span className="text-center mx-5 text-gray-400 hover:none"> {`Hello, ${currentUser.email}`} </span>
 						<button 
 							className="text-center mx-5 hover:text-amber-400" 
-							onClick={() => onClickHandler()}
+							onClick={ handleClick }
 						>	Logout
 						</button>
 						</>
@@ -71,7 +65,7 @@ const Navbar: React.FC = () => {
 			</div>
 		</header>
 		</>
-	);
-};
+	)
+}
 
-export default Navbar;
+export default Navbar

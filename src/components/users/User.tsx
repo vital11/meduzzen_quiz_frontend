@@ -1,44 +1,22 @@
-import { useEffect, useState } from "react"
-import { AxiosError } from "axios"
-import { useParams } from "react-router-dom"
-
-import { userAPI } from "../../api/userAPI"
-import { IUser } from "../../types/user"
+import { useEffect } from "react"
+import { UserProps } from "../../types/user"
+import { useActions } from "../../hooks/useActions"
+import { useTypedSelector } from "../../hooks/useTypedSelector"
 import { ErrorMessage, Loader } from "../UI/Messages"
 
 
-interface Params {
-    id: string;
-}
-
-export default function User() {
-    const {id} = useParams<keyof Params>() as Params
-    const [user, setUser] = useState<IUser>()
-    const [loading, setLoading] = useState(false)
-    const [error, setError] = useState('')
+export default function User({ id }: UserProps) {
+    const { user, error: { fetchUserError }, loading: { fetchUserLoading } } = useTypedSelector((state) => state.user)
+    const { fetchUser } = useActions()
 
     useEffect(() => {
-        fetchUser()
+        fetchUser(id)
     }, [])
-
-    async function fetchUser() {
-        try {
-            setError('')
-            setLoading(true)
-            const data = await userAPI.readUser(id)
-            setUser(data)
-            setLoading(false)
-        } catch (e: unknown) {
-            const error = e as AxiosError
-            setLoading(false)
-            setError(error.message)
-        }
-    }
 
     return (
         <>
-            { loading && <Loader /> }
-            { error && <ErrorMessage error={error} /> }
+            { fetchUserLoading && <Loader /> }
+            { fetchUserError && <ErrorMessage error={ fetchUserError.message } /> }
 
             <div className="p-10 rounded-2xl bg-grey-200 space-y-8">
                 <p className="mx-auto text-center font-medium tracking-wide cursor-pointer">
@@ -68,9 +46,3 @@ export default function User() {
         </>
     )
 }
-
-
-
-
-
-

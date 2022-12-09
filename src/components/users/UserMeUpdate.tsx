@@ -1,40 +1,24 @@
 import { useState } from "react"
-import { AxiosError } from "axios"
-import { userAPI } from "../../api/userAPI"
-import Input from "../UI/Input"
-import { useAppDispatch } from "../../hooks/useAppDispatch"
-import { setUserAC } from "../../store/reducers/userReducer"
+import { useActions } from "../../hooks/useActions"
+import { useTypedSelector } from "../../hooks/useTypedSelector"
 import { ErrorMessage, Loader } from "../UI/Messages"
+import Input from "../UI/Input"
 
 
 export default function UserMeUpdate() {
-    const [name, setName] = useState("")
-    const [password, setPassword] = useState("")
-    const [loading, setLoading] = useState(false)
-    const [error, setError] = useState('')
-	const dispatch = useAppDispatch()
-    
-    async function clickHandler() {
-        try {
-            setError('')
-            setLoading(true)
-            const data = await userAPI.updateUserMe({
-                name: name,
-                password: password
-            })
-            dispatch(setUserAC(data))
-            setLoading(false)
-        } catch (e) {
-            const error = e as AxiosError
-            setLoading(false)
-            setError(error.message)
-        }
+    const { error: { updateUserMeError }, loading: { updateUserMeLoading } } = useTypedSelector((state) => state.user)
+    const { updateUserMe } = useActions()
+    const [name, setName] = useState('')
+    const [password, setPassword] = useState('')
+
+    const handleClick = () => {
+        updateUserMe({ name, password })
     }
 
     return (
         <>
-            { loading && <Loader /> }
-            { error && <ErrorMessage error={error} /> }
+            { updateUserMeLoading && <Loader /> }
+            { updateUserMeError && <ErrorMessage error={ updateUserMeError.message } /> }
         
             <div className="p-10 rounded-2xl bg-white">
                 <p className="text-center mb-8 font-medium tracking-wide cursor-pointer mx-auto">
@@ -46,7 +30,7 @@ export default function UserMeUpdate() {
                     <button
                         type="submit"
                         className="w-full py-3 text-lg text-white bg-teal-300 rounded-lg hover:bg-teal-200 active:bg-teal-400 outline-none"
-                        onClick={() => clickHandler()}
+                        onClick={ handleClick }
                     >   Update
                     </button>
                 </form>
@@ -54,5 +38,3 @@ export default function UserMeUpdate() {
         </>
     )
 }
-
-

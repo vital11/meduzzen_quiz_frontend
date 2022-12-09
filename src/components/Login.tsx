@@ -1,45 +1,31 @@
-import { AxiosError } from "axios"
-import { useState } from "react"
+import { useEffect } from "react"
 import { useForm } from "react-hook-form"
 import { useNavigate } from "react-router-dom"
-
-import { userAPI } from "../api/userAPI"
 import { IUserCreate } from "../types/user"
 import { ErrorMessage, Loader } from "./UI/Messages"
 import LoginButton from "./UI/LoginButton"
+import { useActions } from "../hooks/useActions"
+import { useTypedSelector } from "../hooks/useTypedSelector"
 
 
 export default function Login() {
-    const { register, handleSubmit, formState: { errors, isValid } } = useForm<IUserCreate>({ mode: 'onChange' })
-    const [loading, setLoading] = useState(false)
-    const [error, setError] = useState('')
+    const { register, handleSubmit, formState: { errors, isValid }} = useForm<IUserCreate>({ mode: 'onChange' })
+    const { isAuth, currentUser, error: { loginError }, loading: { loginLoading }} = useTypedSelector((state) => state.auth)
+    const { login } = useActions()
 	const navigate = useNavigate()
 
+	useEffect(() => {
+		isAuth && navigate('/')
+	}, [currentUser])
+
     const onSubmit = handleSubmit(( data ) => {
-        (async () => {
-            try {
-                setError('')
-                setLoading(true)
-                const token = await userAPI.login(data)
-                setLoading(false)
-                localStorage.setItem("auth_token", token.access_token)
-                localStorage.setItem("auth_token_type", token.token_type)
-                    setTimeout(() => {
-                    window.location.reload()
-                }, 100)
-                navigate('/')
-            } catch (e) {
-                const error = e as AxiosError
-                setLoading(false)
-                setError(error.message)
-            }
-        })()
+        login(data)
     })
 
     return (
         <>
-            { loading && <Loader /> }
-            { error && <ErrorMessage error={error} /> }
+            { loginLoading && <Loader /> }
+            { loginError && <ErrorMessage error={ loginError.message } /> }
 
             <div className="w-[600px] p-10 rounded-xl bg-white absolute top-30 left-1/2 -translate-x-1/2">
                 <h1 className="text-3xl font-bold text-center mb-4 cursor-pointer">

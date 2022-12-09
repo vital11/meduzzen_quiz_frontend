@@ -1,52 +1,21 @@
-import { useState } from "react"
-import { AxiosError } from "axios"
-import { useNavigate, useParams } from "react-router-dom"
-
-import { companyAPI } from "../../api/companyAPI"
-import { ICompany } from "../../types/companies"
-import Modal from "../UI/Modal"
+import { CompanyProps } from "../../types/company"
 import { ErrorMessage, Loader } from "../UI/Messages"
+import { useTypedSelector } from "../../hooks/useTypedSelector"
+import { useActions } from "../../hooks/useActions"
 
 
-interface Params {
-    id: string;
-}  
+export default function CompanyDelete({ id }: CompanyProps) {
+    const { error: { removeCompanyError }, loading: { removeCompanyLoading } } = useTypedSelector((state) => state.company)
+    const { removeCompany } = useActions()
 
-export default function CompanyDelete() {
-    const {id} = useParams<keyof Params>() as Params
-    const [company, setCompany] = useState<ICompany>()
-    const [loading, setLoading] = useState(false)
-    const [error, setError] = useState('')
-    const [modal, setModal] = useState(false)
-    const navigate = useNavigate()
-
-    async function clickHandler() {
-        try {
-            setError('')
-            setLoading(true)
-            const data = await companyAPI.deleteCompany(id)
-            setCompany(data)
-            setLoading(false)
-            setModal(true)
-            setTimeout(() => {
-                navigate('/companies')
-            }, 3000)
-        } catch (e) {
-            const error = e as AxiosError
-            setLoading(false)
-            setError(error.message)
-        }
+    const handleClick = () => {
+        removeCompany(id)
     }
 
     return (
         <>
-            { loading && <Loader /> }
-            { error && <ErrorMessage error={error} /> }
-
-            { modal && 
-            <Modal title="" onClose={() => setModal(false)}>
-                <p> Company <span style={{ fontWeight: 'bold'}}> {company?.comp_name} </span> deleted successfully</p>
-            </Modal> }
+            { removeCompanyLoading && <Loader /> }
+            { removeCompanyError && <ErrorMessage error={ removeCompanyError.message } /> }
 
             <div className="p-10 rounded-2xl bg-white">
                 <p className="text-center font-medium tracking-wide cursor-pointer mx-auto mb-8">
@@ -55,16 +24,10 @@ export default function CompanyDelete() {
                 <button
                     type="submit"
                     className="w-full py-3 text-center text-lg text-white bg-red-300 rounded-lg hover:bg-red-200 active:bg-red-400 outline-none"
-                    onClick={() => clickHandler()}
+                    onClick={ handleClick }
                 >   Delete
                 </button>
             </div>
         </>
     )
 }
-
-
-
-
-
-

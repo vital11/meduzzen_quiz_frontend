@@ -1,34 +1,32 @@
-import { Navigate, Route, Routes } from "react-router-dom";
-import { useEffect } from "react";
-import { useAuth0 } from '@auth0/auth0-react';
-import { toast } from "react-toastify";
-
-import { useTypedSelector } from "./hooks/useTypedSelector";
-import { useAppDispatch } from "./hooks/useAppDispatch";
-import { authenticate } from "./store/actions/user";
-import { addAccessTokenInterceptor } from "./api";
-import Layout from "./components/UI/Layout";
-import Login from "./components/Login";
-import UserList from "./components/UserList";
-import { Home } from "./pages/Home";
-import Register from "./components/Register";
-import Dashboard from "./components/Dashboard";
-import UserDetail from "./components/UserDetail";
-import CompanyList from "./components/CompanyList";
-import CompanyDetail from "./components/CompanyDetail";
+import { Navigate, Route, Routes } from "react-router-dom"
+import { useEffect } from "react"
+import { useAuth0 } from '@auth0/auth0-react'
+import { toast } from "react-toastify"
+import { useTypedSelector } from "./hooks/useTypedSelector"
+import { useActions } from "./hooks/useActions"
+import { addAccessTokenInterceptor } from "./api"
+import Layout from "./components/UI/Layout"
+import Login from "./components/Login"
+import UserList from "./components/UserList"
+import { Home } from "./components/Home"
+import Register from "./components/Register"
+import Dashboard from "./components/Dashboard"
+import UserDetail from "./components/UserDetail"
+import CompanyList from "./components/CompanyList"
+import CompanyDetail from "./components/CompanyDetail"
 
 
 function App() {
-	const { currentUser, isAuth } = useTypedSelector((state) => state.user)
-	const dispatch = useAppDispatch();
+	const { currentUser, isAuth } = useTypedSelector((state) => state.auth)
 	const { getAccessTokenSilently, error } = useAuth0()
+	const { authenticate } = useActions()
 
 	useEffect(() => {
 		addAccessTokenInterceptor(getAccessTokenSilently)
 	}, [getAccessTokenSilently])
 
 	useEffect(() => {
-		!isAuth && dispatch(authenticate())
+		!isAuth && authenticate()
 	}, [currentUser])
 
 	if (error) {
@@ -60,5 +58,4 @@ function App() {
 	)
 }
 
-export default App;
-
+export default App
