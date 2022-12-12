@@ -3,10 +3,13 @@ import PageTitle from "./UI/PageTitle"
 import Company from "./companies/Company"
 import CompanyUpdate from "./companies/CompanyUpdate"
 import CompanyDelete from "./companies/CompanyDelete"
-import MembershipList from "./membership/InviteList"
+import InviteList from "./membership/InviteList"
 import { useTypedSelector } from "../hooks/useTypedSelector"
-import { MembershipParams, MembershipTypes } from "../types/membership"
+import { MembershipTypes } from "../types/membership"
 import { ErrorMessage } from "./UI/Messages"
+import RequestList from "./membership/RequestList"
+import MemberList from "./membership/MemberList"
+
 
 
 interface Params { id: string }  
@@ -16,16 +19,6 @@ export default function CompanyDetail() {
     const company_id = Number(id)
     const { currentUser } = useTypedSelector((state) => state.auth)
     const { company } = useTypedSelector((state) => state.company)
-
-    const companyInvites: MembershipParams = {
-        membership_type: MembershipTypes.INVITE,
-        company_id: company_id
-    }
-
-    const companyRequests: MembershipParams = {
-        membership_type: MembershipTypes.REQUEST,
-        company_id: company_id
-    }
 
     return (
         <>
@@ -43,10 +36,11 @@ export default function CompanyDetail() {
                     </> }
                 </div>
                 <div className="basis-3/4 bg-white">
+                    <MemberList title='Company Members' company_id={ company_id }/>
                     { currentUser.id === company.owner_id && 
                     <>
-                        <MembershipList title="Company Invites" params={ companyInvites }/>
-                        <MembershipList title="Company Requests" params={ companyRequests }/>
+                        <InviteList title='Company Invites' company_id={ company_id }/>
+                        <RequestList title='Company Requests' company_id={ company_id }/>
                     </> }
                 </div>
             </div> }

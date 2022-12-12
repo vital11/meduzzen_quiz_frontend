@@ -9,10 +9,10 @@ export const authenticate = () => {
     return async (dispatch: Dispatch<AuthAction>) => {
         try {
             dispatch({ type: AuthActionTypes.SET_USER })
-            const userData = userAPI.readUserMe()
+            const userData = await userAPI.readUserMe()
             dispatch({
                 type: AuthActionTypes.SET_USER_SUCCESS,
-                payload: await userData })
+                payload: userData })
         } catch (e) {
             const error = e as AxiosError
             dispatch({

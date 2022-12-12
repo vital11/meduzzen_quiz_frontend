@@ -60,12 +60,67 @@ export const membershipReducer = (state = initialState, action: MembershipAction
                 requests: [] }  
         case MembershipActionTypes.FETCH_REQUESTS_SUCCESS:
             return {...state,
-                requests: [...state.invites, ...action.payload],
+                requests: [...state.requests, ...action.payload],
                 loading: { addRequestLoading: false }}
         case MembershipActionTypes.FETCH_REQUESTS_ERROR:
             return {...state,
                 error: { addRequestError: { message: action.payload }},
                 loading: { addRequestLoading: false }}
+
+        case MembershipActionTypes.REMOVE_INVITE:
+            return {...state,
+                loading: { removeInviteLoading: true },
+                error: { removeInviteError: null }}
+        case MembershipActionTypes.REMOVE_INVITE_SUCCESS:
+            return {...state,
+                loading: { removeInviteLoading: false },
+                invites: state.invites.filter(invite => (
+                    invite.company_id !== action.payload.company_id || invite.user_id !== action.payload.user_id ))}
+        case MembershipActionTypes.REMOVE_INVITE_ERROR:
+            return {...state,
+                loading: { removeInviteLoading: false },
+                error: { removeInviteError: { message: action.payload }}}
+
+        case MembershipActionTypes.REMOVE_REQUEST:
+            return {...state,
+                loading: { removeRequestLoading: true },
+                error: { removeRequestError: null }}
+        case MembershipActionTypes.REMOVE_REQUEST_SUCCESS:
+            return {...state,
+                loading: { removeRequestLoading: false },
+                requests: state.requests.filter(request => (
+                    request.company_id !== action.payload.company_id || request.user_id !== action.payload.user_id ))}
+        case MembershipActionTypes.REMOVE_REQUEST_ERROR:
+            return {...state,
+                loading: { removeRequestLoading: false },
+                error: { removeRequestError: { message: action.payload }}}
+
+        case MembershipActionTypes.ADD_MEMBER:
+            return {...state,
+                error: { addMemberError: null },
+                loading: { addMemberLoading: true }}
+        case MembershipActionTypes.ADD_MEMBER_SUCCESS:
+            return {...state,
+                members: [...state.members, action.payload],
+                loading: { addMemberLoading: false }}
+        case MembershipActionTypes.ADD_MEMBER_ERROR:
+            return {...state,
+                error: { addMemberError: { message: action.payload }},
+                loading: { addMemberLoading: false }}
+
+        case MembershipActionTypes.FETCH_MEMBERS:
+            return {...state,
+                loading: { fetchMembersLoading: true },
+                error: { fetchMembersError: null },
+                members: [] }
+        case MembershipActionTypes.FETCH_MEMBERS_SUCCESS:
+            return {...state,
+                loading: { fetchMembersLoading: false },
+                members: [...state.members, ...action.payload]}
+        case MembershipActionTypes.FETCH_MEMBERS_ERROR:
+            return {...state,
+                loading: { fetchMembersLoading: false },
+                error: { fetchMembersError: { message: action.payload }}}
 
         default:
             return state

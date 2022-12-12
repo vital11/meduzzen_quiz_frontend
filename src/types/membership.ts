@@ -14,33 +14,34 @@ export interface IMembership extends IMembershipCreate{
     membership_id: number
 }
 
-export type MembershipProps = {
-    membership: IMembership
-}
-
 export type MembershipParams = {
     membership_type: MembershipTypes
     company_id?: number
 }
 
+export type MembershipProps = {
+    membership: IMembership
+}
+
+export type MembershipListProps = {
+    title: string
+    company_id?: number
+}
+
 export interface IMember {
-    m_id?: number
+    m_id: number
     user_id: number
     company_id: number
     is_admin: boolean
     email?: string
+    comp_name?: string
 }
 
-interface UserCompanies {
-    user_id: number
+export type MemberListProps = {
+    title: string
+    company_id?: number
+    user_id?: number
 }
-
-interface CompanyMembers {
-    company_id: number
-}
-
-export type IMemberParams = UserCompanies | CompanyMembers
-
 
 interface MembershipErrorMessage {
     message: string
@@ -183,6 +184,65 @@ interface FetchRequestsErrorAction {
     payload: string
 }
 
+interface RemoveInviteAction {
+    type: MembershipActionTypes.REMOVE_INVITE
+}
+
+interface RemoveInviteSuccessAction {
+    type: MembershipActionTypes.REMOVE_INVITE_SUCCESS
+    payload: IMembership
+}
+
+interface RemoveInviteErrorAction {
+    type: MembershipActionTypes.REMOVE_INVITE_ERROR
+    payload: string
+}
+
+interface RemoveRequestAction {
+    type: MembershipActionTypes.REMOVE_REQUEST
+}
+
+interface RemoveRequestSuccessAction {
+    type: MembershipActionTypes.REMOVE_REQUEST_SUCCESS
+    payload: IMembership
+}
+
+interface RemoveRequestErrorAction {
+    type: MembershipActionTypes.REMOVE_REQUEST_ERROR
+    payload: string
+}
+
+interface AddMemberAction {
+    type: MembershipActionTypes.ADD_MEMBER
+}
+
+interface AddMemberSuccessAction {
+    type: MembershipActionTypes.ADD_MEMBER_SUCCESS
+    payload: IMember
+}
+
+interface AddMemberErrorAction {
+    type: MembershipActionTypes.ADD_MEMBER_ERROR
+    payload: string
+}
+
+interface FetchMembersAction {
+    type: MembershipActionTypes.FETCH_MEMBERS
+}
+
+interface FetchMembersSuccessAction {
+    type: MembershipActionTypes.FETCH_MEMBERS_SUCCESS
+    payload: IMember[]
+}
+
+interface FetchMembersErrorAction {
+    type: MembershipActionTypes.FETCH_MEMBERS_ERROR
+    payload: string
+}
+
+
+
+
 export type MembershipAction = 
 
     | AddInviteAction
@@ -201,4 +261,18 @@ export type MembershipAction =
     | FetchRequestsSuccessAction
     | FetchRequestsErrorAction
 
+    | RemoveInviteAction
+    | RemoveInviteSuccessAction
+    | RemoveInviteErrorAction
 
+    | RemoveRequestAction
+    | RemoveRequestSuccessAction
+    | RemoveRequestErrorAction
+
+    | AddMemberAction
+    | AddMemberSuccessAction
+    | AddMemberErrorAction
+
+    | FetchMembersAction
+    | FetchMembersSuccessAction
+    | FetchMembersErrorAction

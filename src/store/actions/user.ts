@@ -9,10 +9,10 @@ export const fetchUsers = () => {
     return async (dispatch: Dispatch<UserAction>) => {
         try {
             dispatch({ type: UserActionTypes.FETCH_USERS })
-            const data = userAPI.readUsers()
+            const data = await userAPI.readUsers()
             dispatch({
                 type: UserActionTypes.FETCH_USERS_SUCCESS,
-                payload: await data })
+                payload: data })
         } catch (e) {
             const error = e as AxiosError
             dispatch({
@@ -26,10 +26,10 @@ export const fetchUser = (id: number) => {
     return async (dispatch: Dispatch<UserAction>) => {
         try {
             dispatch({ type: UserActionTypes.FETCH_USER })
-            const data = userAPI.readUser(id)
+            const data = await userAPI.readUser(id)
             dispatch({
                 type: UserActionTypes.FETCH_USER_SUCCESS,
-                payload: await data })
+                payload: data })
         } catch (e) {
             const error = e as AxiosError
             dispatch({
@@ -43,10 +43,10 @@ export const addUser = (data: IUserCreate) => {
     return async (dispatch: Dispatch<UserAction>) => {
         try {
             dispatch({ type: UserActionTypes.ADD_USER })
-            const user = userAPI.createUser(data)
+            const user = await userAPI.createUser(data)
             dispatch({
                 type: UserActionTypes.ADD_USER_SUCCESS,
-                payload: await user })
+                payload: user })
         } catch (e) {
             const error = e as AxiosError
             dispatch({
@@ -60,10 +60,10 @@ export const fetchUserMe = () => {
     return async (dispatch: Dispatch<UserAction>) => {
         try {
             dispatch({ type: UserActionTypes.FETCH_USER_ME })
-            const data = userAPI.readUserMe()
+            const data = await userAPI.readUserMe()
             dispatch({
                 type: UserActionTypes.FETCH_USER_ME_SUCCESS,
-                payload: await data })
+                payload: data })
         } catch (e) {
             const error = e as AxiosError
             dispatch({
@@ -77,10 +77,10 @@ export const updateUserMe = (updateForm: IUserUpdate) => {
     return async (dispatch: Dispatch<UserAction>) => {
         try {
             dispatch({ type: UserActionTypes.UPDATE_USER_ME })
-            const userData = userAPI.updateUserMe(updateForm)
+            const userData = await userAPI.updateUserMe(updateForm)
             dispatch({
                 type: UserActionTypes.UPDATE_USER_ME_SUCCESS,
-                payload: await userData })
+                payload: userData })
         } catch (e) {
             const error = e as AxiosError
             dispatch({
@@ -94,10 +94,10 @@ export const removeUserMe = () => {
     return async (dispatch: Dispatch<UserAction>) => {
         try {
             dispatch({ type: UserActionTypes.REMOVE_USER_ME })
-            const userData = userAPI.deleteUserMe()
+            const userData = await userAPI.deleteUserMe()
             dispatch({
                 type: UserActionTypes.REMOVE_USER_ME_SUCCESS,
-                payload: await userData })
+                payload: userData })
         } catch (e) {
             const error = e as AxiosError
             dispatch({
