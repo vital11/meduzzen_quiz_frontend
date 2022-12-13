@@ -1,11 +1,17 @@
 import { combineReducers } from 'redux'
-import { currentUserReducer, usersReducer } from './userReducer'
 import { counterReducer } from './counterReducer'
+import { authReducer } from './authReducer'
+import { userReducer } from './userReducer'
+import { companyReducer } from './companyReducer'
+import { membershipReducer } from './membershipReducer'
+
 
 export const rootReducer = combineReducers({
     counter: counterReducer,
-    users: usersReducer,
-    user: currentUserReducer,
+    auth: authReducer,
+    user: userReducer,
+    company: companyReducer,
+    membership: membershipReducer,
 })
 
 export type RootState = ReturnType<typeof rootReducer>
