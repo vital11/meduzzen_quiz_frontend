@@ -5,8 +5,8 @@ const initialUserState: UserState = {
     users: [],
     user: {} as IUser,
     userMe: {} as IUser,
-    loading: {} as UserLoading,
-    error: {} as UserError,
+    loading: {},
+    error: {},
 }
 
 export const userReducer = (state = initialUserState, action: UserAction): UserState => {
@@ -14,7 +14,7 @@ export const userReducer = (state = initialUserState, action: UserAction): UserS
 
         case UserActionTypes.FETCH_USERS:
             return {...state,
-                error: { fetchUsersError: null },
+                error: { fetchUsersError: undefined },
                 loading: { fetchUsersLoading: true }}    
         case UserActionTypes.FETCH_USERS_SUCCESS:
             return {...state,
@@ -27,7 +27,7 @@ export const userReducer = (state = initialUserState, action: UserAction): UserS
 
         case UserActionTypes.FETCH_USER:
             return {...state,
-                error: { fetchUserError: null },
+                error: { fetchUserError: undefined },
                 loading: { fetchUserLoading: true }}  
         case UserActionTypes.FETCH_USER_SUCCESS:
             return {...state,
@@ -40,7 +40,7 @@ export const userReducer = (state = initialUserState, action: UserAction): UserS
 
         case UserActionTypes.ADD_USER:
             return {...state,
-                error: { addUserError: null },
+                error: { addUserError: undefined },
                 loading: { addUserLoading: true }}  
         case UserActionTypes.ADD_USER_SUCCESS:
             return {...state,
@@ -54,7 +54,7 @@ export const userReducer = (state = initialUserState, action: UserAction): UserS
 
         case UserActionTypes.FETCH_USER_ME:
             return {...state,
-                error: { fetchUserError: null },
+                error: { fetchUserError: undefined },
                 loading: { fetchUserMeLoading: true }}  
         case UserActionTypes.FETCH_USER_ME_SUCCESS:
             return {...state,
@@ -67,7 +67,7 @@ export const userReducer = (state = initialUserState, action: UserAction): UserS
 
         case UserActionTypes.UPDATE_USER_ME:
             return {...state,
-                error: { updateUserMeError: null },
+                error: { updateUserMeError: undefined },
                 loading: { updateUserMeLoading: true }}  
         case UserActionTypes.UPDATE_USER_ME_SUCCESS:
             return {...state,
@@ -80,7 +80,7 @@ export const userReducer = (state = initialUserState, action: UserAction): UserS
 
         case UserActionTypes.REMOVE_USER_ME:
             return {...state,
-                error: { removeUserMeError: null },
+                error: { removeUserMeError: undefined },
                 loading: { removeUserMeLoading: true }}  
         case UserActionTypes.REMOVE_USER_ME_SUCCESS:
             return {...state,

@@ -1,3 +1,4 @@
+import { ICompany } from "./company"
 
 export enum MembershipTypes {
     REQUEST="request",
@@ -28,6 +29,12 @@ export type MembershipListProps = {
     company_id?: number
 }
 
+export interface IMemberUpdate {
+    user_id: number
+    company_id: number
+    is_admin: boolean
+}
+
 export interface IMember {
     m_id: number
     user_id: number
@@ -37,9 +44,15 @@ export interface IMember {
     comp_name?: string
 }
 
+export type MemberProps = {
+    title?: string
+    member: IMember
+}
+
 export type MemberListProps = {
     title: string
     company_id?: number
+    company?: ICompany
     user_id?: number
 }
 
@@ -49,17 +62,17 @@ interface MembershipErrorMessage {
 }
 
 export interface MembershipError {
-    addInviteError?: MembershipErrorMessage | null
-    addRequestError?: MembershipErrorMessage | null
-    fetchInvitesError?: MembershipErrorMessage | null
-    fetchRequestsError?: MembershipErrorMessage | null
-    removeInviteError?: MembershipErrorMessage | null
-    removeRequestError?: MembershipErrorMessage | null
+    addInviteError?: MembershipErrorMessage
+    addRequestError?: MembershipErrorMessage
+    fetchInvitesError?: MembershipErrorMessage
+    fetchRequestsError?: MembershipErrorMessage
+    removeInviteError?: MembershipErrorMessage
+    removeRequestError?: MembershipErrorMessage
 
-    addMemberError?: MembershipErrorMessage | null
-    fetchMembersError?: MembershipErrorMessage | null
-    removeMemberError?: MembershipErrorMessage | null
-    toggleMemberAdminRole?: MembershipErrorMessage | null
+    addMemberError?: MembershipErrorMessage
+    fetchMembersError?: MembershipErrorMessage
+    removeMemberError?: MembershipErrorMessage
+    toggleMemberAdminRoleError?: MembershipErrorMessage
 }
 
 export interface MembershipLoading {
@@ -240,8 +253,33 @@ interface FetchMembersErrorAction {
     payload: string
 }
 
+interface ToggleMemberAdminRoleAction {
+    type: MembershipActionTypes.TOGGLE_MEMBER_ADMIN_ROLE
+}
 
+interface ToggleMemberAdminRoleSuccessAction {
+    type: MembershipActionTypes.TOGGLE_MEMBER_ADMIN_ROLE_SUCCESS
+    payload: IMember
+}
 
+interface ToggleMemberAdminRoleErrorAction {
+    type: MembershipActionTypes.TOGGLE_MEMBER_ADMIN_ROLE_ERROR
+    payload: string
+}
+
+interface RemoveMemberAction {
+    type: MembershipActionTypes.REMOVE_MEMBER
+}
+
+interface RemoveMemberSuccessAction {
+    type: MembershipActionTypes.REMOVE_MEMBER_SUCCESS
+    payload: IMember
+}
+
+interface RemoveMemberErrorAction {
+    type: MembershipActionTypes.REMOVE_MEMBER_ERROR
+    payload: string
+}
 
 export type MembershipAction = 
 
@@ -276,3 +314,11 @@ export type MembershipAction =
     | FetchMembersAction
     | FetchMembersSuccessAction
     | FetchMembersErrorAction
+
+    | ToggleMemberAdminRoleAction
+    | ToggleMemberAdminRoleSuccessAction
+    | ToggleMemberAdminRoleErrorAction
+
+    | RemoveMemberAction
+    | RemoveMemberSuccessAction
+    | RemoveMemberErrorAction

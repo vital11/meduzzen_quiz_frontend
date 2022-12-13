@@ -1,7 +1,7 @@
 import { AxiosError } from "axios"
 import { Dispatch } from "redux"
 import { membershipAPI } from "../../api/membershipAPI"
-import { IMembership, IMembershipCreate, MembershipAction, MembershipActionTypes, MembershipTypes } from "../../types/membership"
+import { IMembership, IMembershipCreate, MembershipAction, MembershipActionTypes, MembershipTypes, IMember, IMemberUpdate, } from "../../types/membership"
 
 
 export const addInvite = (data: IMembershipCreate) => {
@@ -169,3 +169,36 @@ export const fetchMemberCompanies = (user_id: number) => {
     }
 }
 
+export const toggleMemberAdminRole = (member: IMemberUpdate) => {
+    return async (dispatch: Dispatch<MembershipAction>) => {
+        try {
+            dispatch({ type: MembershipActionTypes.TOGGLE_MEMBER_ADMIN_ROLE })
+            const company = await membershipAPI.updateMember(member)
+            dispatch({
+                type: MembershipActionTypes.TOGGLE_MEMBER_ADMIN_ROLE_SUCCESS,
+                payload: company })
+        } catch (e) {
+            const error = e as AxiosError
+            dispatch({
+                type: MembershipActionTypes.TOGGLE_MEMBER_ADMIN_ROLE_ERROR, 
+                payload: error.message })
+        }
+    }
+}
+
+export const removeMember = (member: IMember) => {
+    return async (dispatch: Dispatch<MembershipAction>) => {
+        try {
+            dispatch({ type: MembershipActionTypes.REMOVE_MEMBER })
+            const memberData = await membershipAPI.deleteMember(member.m_id)
+            dispatch({
+                type: MembershipActionTypes.REMOVE_MEMBER_SUCCESS,
+                payload: memberData })
+        } catch (e) {
+            const error = e as AxiosError
+            dispatch({
+                type: MembershipActionTypes.REMOVE_MEMBER_ERROR, 
+                payload: error.message })
+        }
+    }
+}

@@ -25,9 +25,7 @@ export default function Dashboard() {
                 </div>
                 <div className="basis-3/4 bg-white">
                     <OwnerCompanies />
-
                     <MemberList title='Member Companies' user_id={ currentUser.id }/>
-
                     <InviteList title='My Invites' />
                     <RequestList title='My Requests' />
                 </div>

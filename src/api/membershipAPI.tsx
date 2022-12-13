@@ -1,5 +1,5 @@
 import { api } from "."
-import { IMember, IMembership, IMembershipCreate, MembershipParams } from "../types/membership"
+import { IMembership, IMembershipCreate, MembershipParams, IMember, IMemberUpdate } from "../types/membership"
 
 
 export const membershipAPI = {
@@ -26,5 +26,13 @@ export const membershipAPI = {
 
     async readMemberCompanies(user_id: number): Promise<IMember[]> {
         return await api.get<IMember[]>(`/members/users/${user_id}`).then(response => response.data)
+    },
+
+    async updateMember(updateForm: IMemberUpdate): Promise<IMember> {
+        return await api.patch<IMember>('/members/', updateForm).then(response => response.data)
+    },
+
+    async deleteMember(id: number): Promise<IMember> {
+        return await api.delete<IMember>(`/members/${id}`).then(response => response.data)
     },
 }

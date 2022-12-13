@@ -1,15 +1,19 @@
+import { useNavigate } from "react-router-dom"
 import { CompanyProps } from "../../types/company"
 import { ErrorMessage, Loader } from "../UI/Messages"
 import { useTypedSelector } from "../../hooks/useTypedSelector"
 import { useActions } from "../../hooks/useActions"
 
 
+
 export default function CompanyDelete({ id }: CompanyProps) {
     const { error: { removeCompanyError }, loading: { removeCompanyLoading } } = useTypedSelector((state) => state.company)
     const { removeCompany } = useActions()
+    const navigate = useNavigate()
 
     const handleClick = () => {
         removeCompany(id)
+        navigate('/dashboard')
     }
 
     return (

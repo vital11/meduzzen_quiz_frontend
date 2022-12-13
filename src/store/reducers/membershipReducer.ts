@@ -6,8 +6,8 @@ const initialState: MembershipState = {
     requests: [],
     members: [],
     member: {} as IMember,
-    loading: {} as MembershipLoading,
-    error: {} as MembershipError,
+    loading: {},
+    error: {},
 }
 
 export const membershipReducer = (state = initialState, action: MembershipAction): MembershipState => {
@@ -15,7 +15,7 @@ export const membershipReducer = (state = initialState, action: MembershipAction
 
         case MembershipActionTypes.ADD_INVITE:
             return {...state,
-                error: { addInviteError: null },
+                error: { addInviteError: undefined },
                 loading: { addInviteLoading: true }}  
         case MembershipActionTypes.ADD_INVITE_SUCCESS:
             return {...state,
@@ -28,7 +28,7 @@ export const membershipReducer = (state = initialState, action: MembershipAction
 
         case MembershipActionTypes.ADD_REQUEST:
             return {...state,
-                error: { addRequestError: null },
+                error: { addRequestError: undefined },
                 loading: { addRequestLoading: true }}  
         case MembershipActionTypes.ADD_REQUEST_SUCCESS:
             return {...state,
@@ -42,7 +42,7 @@ export const membershipReducer = (state = initialState, action: MembershipAction
         case MembershipActionTypes.FETCH_INVITES:
             return {...state,
                 loading: { addInviteLoading: true },
-                error: { addInviteError: null },
+                error: { addInviteError: undefined },
                 invites: [] }
         case MembershipActionTypes.FETCH_INVITES_SUCCESS:
             return {...state,
@@ -55,7 +55,7 @@ export const membershipReducer = (state = initialState, action: MembershipAction
 
         case MembershipActionTypes.FETCH_REQUESTS:
             return {...state,
-                error: { addRequestError: null },
+                error: { addRequestError: undefined },
                 loading: { addRequestLoading: true },
                 requests: [] }  
         case MembershipActionTypes.FETCH_REQUESTS_SUCCESS:
@@ -70,7 +70,7 @@ export const membershipReducer = (state = initialState, action: MembershipAction
         case MembershipActionTypes.REMOVE_INVITE:
             return {...state,
                 loading: { removeInviteLoading: true },
-                error: { removeInviteError: null }}
+                error: { removeInviteError: undefined }}
         case MembershipActionTypes.REMOVE_INVITE_SUCCESS:
             return {...state,
                 loading: { removeInviteLoading: false },
@@ -84,7 +84,7 @@ export const membershipReducer = (state = initialState, action: MembershipAction
         case MembershipActionTypes.REMOVE_REQUEST:
             return {...state,
                 loading: { removeRequestLoading: true },
-                error: { removeRequestError: null }}
+                error: { removeRequestError: undefined }}
         case MembershipActionTypes.REMOVE_REQUEST_SUCCESS:
             return {...state,
                 loading: { removeRequestLoading: false },
@@ -97,7 +97,7 @@ export const membershipReducer = (state = initialState, action: MembershipAction
 
         case MembershipActionTypes.ADD_MEMBER:
             return {...state,
-                error: { addMemberError: null },
+                error: { addMemberError: undefined },
                 loading: { addMemberLoading: true }}
         case MembershipActionTypes.ADD_MEMBER_SUCCESS:
             return {...state,
@@ -111,7 +111,7 @@ export const membershipReducer = (state = initialState, action: MembershipAction
         case MembershipActionTypes.FETCH_MEMBERS:
             return {...state,
                 loading: { fetchMembersLoading: true },
-                error: { fetchMembersError: null },
+                error: { fetchMembersError: undefined },
                 members: [] }
         case MembershipActionTypes.FETCH_MEMBERS_SUCCESS:
             return {...state,
@@ -121,6 +121,35 @@ export const membershipReducer = (state = initialState, action: MembershipAction
             return {...state,
                 loading: { fetchMembersLoading: false },
                 error: { fetchMembersError: { message: action.payload }}}
+
+        case MembershipActionTypes.TOGGLE_MEMBER_ADMIN_ROLE:
+            return {...state,
+                error: { toggleMemberAdminRoleError: undefined },
+                loading: { toggleMemberAdminRoleLoading: true }}  
+        case MembershipActionTypes.TOGGLE_MEMBER_ADMIN_ROLE_SUCCESS:
+            return {...state,
+                member: action.payload,
+                loading: { toggleMemberAdminRoleLoading: false }}
+        case MembershipActionTypes.TOGGLE_MEMBER_ADMIN_ROLE_ERROR:
+            return {...state,
+                error: { toggleMemberAdminRoleError: { message: action.payload }},
+                loading: { toggleMemberAdminRoleLoading: false }}
+
+        case MembershipActionTypes.REMOVE_MEMBER:
+            return {...state,
+                loading: { removeMemberLoading: true },
+                error: { removeMemberError: undefined }}
+        case MembershipActionTypes.REMOVE_MEMBER_SUCCESS:
+            return {...state,
+                loading: { removeMemberLoading: false },
+                members: state.members.filter(member => (
+                    member.company_id !== action.payload.company_id || member.user_id !== action.payload.user_id ))}
+        case MembershipActionTypes.REMOVE_MEMBER_ERROR:
+            return {...state,
+                loading: { removeMemberLoading: false },
+                error: { removeMemberError: { message: action.payload }}}
+
+
 
         default:
             return state

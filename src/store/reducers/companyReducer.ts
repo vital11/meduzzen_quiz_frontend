@@ -3,9 +3,10 @@ import { CompanyAction, CompanyActionTypes, CompanyError, CompanyLoading, Compan
 
 const initialState: CompanyState = {
     companies: [],
+    ownerCompanies: [],
     company: {} as ICompany,
-    loading: {} as CompanyLoading,
-    error: {} as CompanyError,
+    loading: {},
+    error: {},
 }
 
 export const companyReducer = (state = initialState, action: CompanyAction): CompanyState => {
@@ -13,21 +14,33 @@ export const companyReducer = (state = initialState, action: CompanyAction): Com
 
         case CompanyActionTypes.FETCH_COMPANIES:
             return {...state,
-                error: { fetchCompaniesError: null },
-                loading: { fetchCompaniesLoading: true }}    
+                error: { fetchOwnerCompaniesError: undefined },
+                loading: { fetchOwnerCompaniesLoading: true }}    
         case CompanyActionTypes.FETCH_COMPANIES_SUCCESS:
             return {...state,
                 companies: action.payload,
-                loading: { fetchCompaniesLoading: false }
-            }
+                loading: { fetchOwnerCompaniesLoading: false }}
         case CompanyActionTypes.FETCH_COMPANIES_ERROR:
+            return {...state,
+                error: { fetchOwnerCompaniesError: { message: action.payload }},
+                loading: { fetchOwnerCompaniesLoading: false }}
+
+        case CompanyActionTypes.FETCH_OWNER_COMPANIES:
+            return {...state,
+                error: { fetchCompaniesError: undefined },
+                loading: { fetchCompaniesLoading: true }}    
+        case CompanyActionTypes.FETCH_OWNER_COMPANIES_SUCCESS:
+            return {...state,
+                ownerCompanies: action.payload,
+                loading: { fetchCompaniesLoading: false }}
+        case CompanyActionTypes.FETCH_OWNER_COMPANIES_ERROR:
             return {...state,
                 error: { fetchCompaniesError: { message: action.payload }},
                 loading: { fetchCompaniesLoading: false }}
 
         case CompanyActionTypes.FETCH_COMPANY:
             return {...state,
-                error: { fetchCompanyError: null },
+                error: { fetchCompanyError: undefined },
                 loading: { fetchCompanyLoading: true }}  
         case CompanyActionTypes.FETCH_COMPANY_SUCCESS:
             return {...state,
@@ -40,7 +53,7 @@ export const companyReducer = (state = initialState, action: CompanyAction): Com
 
         case CompanyActionTypes.ADD_COMPANY:
             return {...state,
-                error: { addCompanyError: null },
+                error: { addCompanyError: undefined },
                 loading: { addCompanyLoading: true }}  
         case CompanyActionTypes.ADD_COMPANY_SUCCESS:
             return {...state,
@@ -53,7 +66,7 @@ export const companyReducer = (state = initialState, action: CompanyAction): Com
 
         case CompanyActionTypes.UPDATE_COMPANY:
             return {...state,
-                error: { updateCompanyError: null },
+                error: { updateCompanyError: undefined },
                 loading: { updateCompanyLoading: true }}  
         case CompanyActionTypes.UPDATE_COMPANY_SUCCESS:
             return {...state,
@@ -66,7 +79,7 @@ export const companyReducer = (state = initialState, action: CompanyAction): Com
 
         case CompanyActionTypes.REMOVE_COMPANY:
             return {...state,
-                error: { removeCompanyError: null },
+                error: { removeCompanyError: undefined },
                 loading: { removeCompanyLoading: true }}  
         case CompanyActionTypes.REMOVE_COMPANY_SUCCESS:
             return {...state,

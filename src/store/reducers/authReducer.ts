@@ -5,8 +5,8 @@ import { IUser } from "../../types/user"
 const initialState: AuthState = {
     currentUser: {} as IUser,
     isAuth: false,
-    loading: {} as AuthLoading,
-    error: {} as AuthError,
+    loading: {},
+    error: {},
 }
 
 export const authReducer = (state = initialState, action: AuthAction): AuthState => {
@@ -14,7 +14,7 @@ export const authReducer = (state = initialState, action: AuthAction): AuthState
 
         case AuthActionTypes.SET_USER:
             return {...state,
-                error: { setUserError: null },
+                error: { setUserError: undefined },
                 loading: { setUserLoading: true }}
         case AuthActionTypes.SET_USER_SUCCESS:
             return {...state,
@@ -28,7 +28,7 @@ export const authReducer = (state = initialState, action: AuthAction): AuthState
 
         case AuthActionTypes.LOGIN:
             return {...state,
-                error: { loginError: null },
+                error: { loginError: undefined },
                 loading: { loginLoading: true }}
         case AuthActionTypes.LOGIN_SUCCESS:
             return {...state,

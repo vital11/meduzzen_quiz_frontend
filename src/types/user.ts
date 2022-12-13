@@ -27,12 +27,12 @@ interface UserErrorMessage {
 }
 
 export interface UserError {
-    fetchUsersError?: UserErrorMessage | null
-    fetchUserError?: UserErrorMessage | null
-    fetchUserMeError?: UserErrorMessage | null
-    addUserError?: UserErrorMessage | null
-    updateUserMeError?: UserErrorMessage | null
-    removeUserMeError?: UserErrorMessage | null
+    fetchUsersError?: UserErrorMessage
+    fetchUserError?: UserErrorMessage
+    fetchUserMeError?: UserErrorMessage
+    addUserError?: UserErrorMessage
+    updateUserMeError?: UserErrorMessage
+    removeUserMeError?: UserErrorMessage
 }
 
 export interface UserLoading {

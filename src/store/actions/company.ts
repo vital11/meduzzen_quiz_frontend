@@ -8,10 +8,10 @@ export const fetchCompanies = () => {
     return async (dispatch: Dispatch<CompanyAction>) => {
         try {
             dispatch({ type: CompanyActionTypes.FETCH_COMPANIES })
-            const data = await companyAPI.readCompanies()
+            const companies = await companyAPI.readCompanies()
             dispatch({
                 type: CompanyActionTypes.FETCH_COMPANIES_SUCCESS,
-                payload: data })
+                payload: companies })
         } catch (e) {
             const error = e as AxiosError
             dispatch({
@@ -21,14 +21,31 @@ export const fetchCompanies = () => {
     }
 }
 
+export const fetchOwnerCompanies = (id?: number) => {
+    return async (dispatch: Dispatch<CompanyAction>) => {
+        try {
+            dispatch({ type: CompanyActionTypes.FETCH_OWNER_COMPANIES })
+            const companies = await companyAPI.readOwnerCompanies(id)
+            dispatch({
+                type: CompanyActionTypes.FETCH_OWNER_COMPANIES_SUCCESS,
+                payload: companies })
+        } catch (e) {
+            const error = e as AxiosError
+            dispatch({
+                type: CompanyActionTypes.FETCH_OWNER_COMPANIES_ERROR, 
+                payload: error.message })
+        }
+    }
+}
+
 export const fetchCompany = (id: number) => {
     return async (dispatch: Dispatch<CompanyAction>) => {
         try {
             dispatch({ type: CompanyActionTypes.FETCH_COMPANY })
-            const data = await companyAPI.readCompany(id)
+            const company = await companyAPI.readCompany(id)
             dispatch({
                 type: CompanyActionTypes.FETCH_COMPANY_SUCCESS,
-                payload: data })
+                payload: company })
         } catch (e: any) {
             const error = e as AxiosError
             dispatch({
@@ -59,10 +76,10 @@ export const updateCompany = (id: number, data: ICompanyUpdate) => {
     return async (dispatch: Dispatch<CompanyAction>) => {
         try {
             dispatch({ type: CompanyActionTypes.UPDATE_COMPANY })
-            const companyData = await companyAPI.updateCompany(id, data)
+            const company = await companyAPI.updateCompany(id, data)
             dispatch({
                 type: CompanyActionTypes.UPDATE_COMPANY_SUCCESS,
-                payload: companyData })
+                payload: company })
         } catch (e) {
             const error = e as AxiosError
             dispatch({
@@ -76,10 +93,10 @@ export const removeCompany = (id: number) => {
     return async (dispatch: Dispatch<CompanyAction>) => {
         try {
             dispatch({ type: CompanyActionTypes.REMOVE_COMPANY })
-            const data = await companyAPI.deleteCompany(id)
+            const company = await companyAPI.deleteCompany(id)
             dispatch({
                 type: CompanyActionTypes.REMOVE_COMPANY_SUCCESS,
-                payload: data })
+                payload: company })
         } catch (e) {
             const error = e as AxiosError
             dispatch({

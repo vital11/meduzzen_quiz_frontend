@@ -19,7 +19,7 @@ export default function InviteCreate({ id }: InviteCreateProps) {
     const [companyID, setCompanyID] = useState<number>()
 
     const loadOptions = (searchValue: string, callback: (options: Option[]) => void): void => {
-        companyAPI.readCompaniesMe().then(data => {
+        companyAPI.readOwnerCompanies().then(data => {
             let companies = data
             callback(companies.map((company: ICompany) => ({
                 value: company.comp_id,

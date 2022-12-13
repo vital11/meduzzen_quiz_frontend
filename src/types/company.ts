@@ -22,15 +22,17 @@ interface CompanyErrorMessage {
 }
 
 export interface CompanyError {
-    fetchCompaniesError?: CompanyErrorMessage | null
-    fetchCompanyError?: CompanyErrorMessage | null
-    addCompanyError?: CompanyErrorMessage | null
-    updateCompanyError?: CompanyErrorMessage | null
-    removeCompanyError?: CompanyErrorMessage | null
+    fetchCompaniesError?: CompanyErrorMessage
+    fetchOwnerCompaniesError?: CompanyErrorMessage
+    fetchCompanyError?: CompanyErrorMessage
+    addCompanyError?: CompanyErrorMessage
+    updateCompanyError?: CompanyErrorMessage
+    removeCompanyError?: CompanyErrorMessage
 }
 
 export interface CompanyLoading {
     fetchCompaniesLoading?: boolean
+    fetchOwnerCompaniesLoading?: boolean
     fetchCompanyLoading?: boolean
     addCompanyLoading?: boolean
     updateCompanyLoading?: boolean
@@ -39,6 +41,7 @@ export interface CompanyLoading {
 
 export interface CompanyState {
     companies: ICompany[]
+    ownerCompanies: ICompany[]
     company: ICompany
     loading: CompanyLoading
     error: CompanyError
@@ -49,6 +52,10 @@ export enum CompanyActionTypes {
     FETCH_COMPANIES = 'FETCH_COMPANIES',
     FETCH_COMPANIES_SUCCESS = 'FETCH_COMPANIES_SUCCESS',
     FETCH_COMPANIES_ERROR = 'FETCH_COMPANIES_ERROR',
+
+    FETCH_OWNER_COMPANIES = 'FETCH_OWNER_COMPANIES',
+    FETCH_OWNER_COMPANIES_SUCCESS = 'FETCH_OWNER_COMPANIES_SUCCESS',
+    FETCH_OWNER_COMPANIES_ERROR = 'FETCH_OWNER_COMPANIES_ERROR',
 
     FETCH_COMPANY = 'FETCH_COMPANY',
     FETCH_COMPANY_SUCCESS = 'FETCH_COMPANY_SUCCESS',
@@ -78,6 +85,20 @@ interface FetchCompaniesSuccessAction {
 
 interface FetchCompaniesErrorAction {
     type: CompanyActionTypes.FETCH_COMPANIES_ERROR
+    payload: string
+}
+
+interface FetchOwnerCompaniesAction {
+    type: CompanyActionTypes.FETCH_OWNER_COMPANIES
+}
+
+interface FetchOwnerCompaniesSuccessAction {
+    type: CompanyActionTypes.FETCH_OWNER_COMPANIES_SUCCESS
+    payload: ICompany[]
+}
+
+interface FetchOwnerCompaniesErrorAction {
+    type: CompanyActionTypes.FETCH_OWNER_COMPANIES_ERROR
     payload: string
 }
 
@@ -142,6 +163,10 @@ export type CompanyAction =
     FetchCompaniesAction
     | FetchCompaniesSuccessAction
     | FetchCompaniesErrorAction
+
+    | FetchOwnerCompaniesAction
+    | FetchOwnerCompaniesSuccessAction
+    | FetchOwnerCompaniesErrorAction
 
     | FetchCompanyAction
     | FetchCompanySuccessAction

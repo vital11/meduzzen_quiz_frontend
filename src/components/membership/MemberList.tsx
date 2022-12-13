@@ -3,16 +3,19 @@ import { useActions } from "../../hooks/useActions"
 import { useTypedSelector } from "../../hooks/useTypedSelector"
 import { ErrorMessage, Loader } from "../UI/Messages"
 import { MemberListProps } from "../../types/membership"
+import MemberDelete from "./MemberDelete"
+import MemberAdminToggle from "./MemberAdminToggle"
 
 
-export default function MemberList({ title, company_id, user_id }: MemberListProps) {
-    const { members, error: { fetchMembersError }, loading: { fetchMembersLoading }} = useTypedSelector((state) => state.membership)
+export default function MemberList({ title, company_id, company, user_id }: MemberListProps) {
+    const { members, member, error: { fetchMembersError }, loading: { fetchMembersLoading }} = useTypedSelector((state) => state.membership)
+    const { currentUser } = useTypedSelector((state) => state.auth)
     const { fetchCompanyMembers, fetchMemberCompanies } = useActions()
 
     useEffect(() => {
         company_id && fetchCompanyMembers(company_id)
         user_id && fetchMemberCompanies(user_id)
-    }, [])
+    }, [member])
 
 
 	const currentMembers = members.map((member) => {
@@ -29,8 +32,11 @@ export default function MemberList({ title, company_id, user_id }: MemberListPro
                     <span className="p-4">{ member.company_id }</span>
                     <span className="p-4">{ String(member.is_admin) }</span>
                     <span className="p-4">{ company_id ? member.email : member.comp_name }</span>
-                    <span className="flex justify-end px-5">
-                        <button>Delete Company / Member</button>
+                    <span className="flex justify-end gap-4 px-5">
+                        { company_id && company && currentUser.id === company.owner_id && <>
+                            <MemberAdminToggle title='Toggle Member Admin Role' member={ member }/>
+                            <MemberDelete title='Delete Member' member={ member }/> </> }
+                        { user_id && <MemberDelete title='Delete Company' member={ member }/> }
                     </span>
             </div>
 			)

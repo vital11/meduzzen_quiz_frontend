@@ -14,8 +14,8 @@ interface AuthErrorMessage {
 }
 
 export interface AuthError {
-    setUserError?: AuthErrorMessage | null
-    loginError?: AuthErrorMessage | null
+    setUserError?: AuthErrorMessage
+    loginError?: AuthErrorMessage
 }
 
 export interface AuthLoading {
