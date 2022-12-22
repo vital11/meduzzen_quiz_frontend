@@ -14,6 +14,7 @@ import Dashboard from "./components/Dashboard"
 import UserDetail from "./components/UserDetail"
 import CompanyList from "./components/CompanyList"
 import CompanyDetail from "./components/CompanyDetail"
+import QuizDetail from "./components/QuizDetail"
 
 
 function App() {
@@ -48,6 +49,7 @@ function App() {
 				<Route path="/users/:id" element={<UserDetail />} />
 				<Route path="/companies" element={<CompanyList />} />
 				<Route path="/companies/:id" element={<CompanyDetail />} />
+				<Route path="/companies/:id/quizzes/:qid" element={<QuizDetail />} />
 				<Route path="/dashboard" element={<Dashboard />} />
 				<Route path="/" element={<Home />} />
 				<Route path="*" element={<Navigate replace to="/" />} />

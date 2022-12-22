@@ -3,6 +3,7 @@ import * as AuthActionCreators from './auth'
 import * as UserActionCreators from './user'
 import * as CompanyActionCreators from './company'
 import * as MembershipActionCreators from './membership'
+import * as QuizActionCreators from './quiz'
 
 export default {
     ...CounterActionCreators,
@@ -10,4 +11,5 @@ export default {
     ...UserActionCreators,
     ...CompanyActionCreators,
     ...MembershipActionCreators,
+    ...QuizActionCreators,
 }

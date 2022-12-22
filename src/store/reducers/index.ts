@@ -4,6 +4,7 @@ import { authReducer } from './authReducer'
 import { userReducer } from './userReducer'
 import { companyReducer } from './companyReducer'
 import { membershipReducer } from './membershipReducer'
+import { quizReducer } from './quizReducer'
 
 
 export const rootReducer = combineReducers({
@@ -12,6 +13,7 @@ export const rootReducer = combineReducers({
     user: userReducer,
     company: companyReducer,
     membership: membershipReducer,
+    quiz: quizReducer,
 })
 
 export type RootState = ReturnType<typeof rootReducer>

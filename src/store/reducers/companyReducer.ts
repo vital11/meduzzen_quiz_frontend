@@ -41,7 +41,7 @@ export const companyReducer = (state = initialState, action: CompanyAction): Com
         case CompanyActionTypes.FETCH_COMPANY:
             return {...state,
                 error: { fetchCompanyError: undefined },
-                loading: { fetchCompanyLoading: true }}  
+                loading: { fetchCompanyLoading: true }}
         case CompanyActionTypes.FETCH_COMPANY_SUCCESS:
             return {...state,
                 company: action.payload,

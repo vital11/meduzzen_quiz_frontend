@@ -1,8 +1,8 @@
-import { ICompany } from "./company"
+import { ICompany } from './company'
 
 export enum MembershipTypes {
-    REQUEST="request",
-    INVITE="invite"
+    REQUEST='request',
+    INVITE='invite'
 }
 
 export interface IMembershipCreate {
@@ -29,17 +29,23 @@ export type MembershipListProps = {
     company_id?: number
 }
 
+export enum MemberRoles {
+    MEMBER='member',
+    ADMIN='admin',
+    OWNER='owner'
+}
+
 export interface IMemberUpdate {
     user_id: number
     company_id: number
-    is_admin: boolean
+    role: MemberRoles
 }
 
 export interface IMember {
     m_id: number
     user_id: number
     company_id: number
-    is_admin: boolean
+    role: MemberRoles
     email?: string
     comp_name?: string
 }
