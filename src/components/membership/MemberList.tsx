@@ -30,7 +30,7 @@ export default function MemberList({ title, company_id, company, user_id }: Memb
                     <span className="p-4">{ member.m_id }</span>
                     <span className="p-4">{ member.user_id }</span>
                     <span className="p-4">{ member.company_id }</span>
-                    <span className="p-4">{ String(member.is_admin) }</span>
+                    <span className="p-4">{ member.role }</span>
                     <span className="p-4">{ company_id ? member.email : member.comp_name }</span>
                     <span className="flex justify-end gap-4 px-5">
                         { company_id && company && currentUser.id === company.owner_id && <>
@@ -56,7 +56,7 @@ export default function MemberList({ title, company_id, company, user_id }: Memb
                         <span className="p-4">ID</span>
                         <span className="p-4">User ID</span>
                         <span className="p-4">Company ID</span>
-                        <span className="p-4">Is Admin</span>
+                        <span className="p-4">Role</span>
                         <span className="p-4">{ company_id ? 'Member Email' : 'Company Name' }</span>
                         <span className="p-4 flex justify-end"></span>
                     </div>

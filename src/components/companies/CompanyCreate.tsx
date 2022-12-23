@@ -40,7 +40,7 @@ export default function CompanyCreate() {
                                     minLength: 1,
                                 })}
                             />
-                            { errors.comp_name && <p className="mt-2 text-red-300"> Enter valid email address </p> }
+                            { errors.comp_name && <p className="mt-2 text-red-300"> Enter valid Company name </p> }
                         </>
                         <>
                             <input
@@ -52,7 +52,7 @@ export default function CompanyCreate() {
                                     minLength: 1,
                                 })}
                             />
-                            { errors.comp_description && <p className="mt-2 text-red-300"> Password should contain at least one character </p> }
+                            { errors.comp_description && <p className="mt-2 text-red-300"> Enter valid Company description </p> }
                         </>
                         <div className="flex flex-row items-center">
                             <input
