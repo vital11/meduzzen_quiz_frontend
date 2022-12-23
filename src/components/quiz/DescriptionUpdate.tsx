@@ -1,12 +1,12 @@
 import { useForm } from 'react-hook-form'
 import { useActions } from '../../hooks/useActions'
 import { useTypedSelector } from '../../hooks/useTypedSelector'
-import { IDescriptionUpdate, QuizProps } from '../../types/quiz'
+import { QuizDescription, QuizProps } from '../../types/quiz'
 import { ErrorMessage, Loader } from '../UI/Messages'
 
 
 export default function DescriptionUpdate({ companyId, quizId }: QuizProps) {
-    const { register, handleSubmit, formState: { errors, isValid } } = useForm<IDescriptionUpdate>({ mode: 'onChange' })
+    const { register, handleSubmit, formState: { errors, isValid } } = useForm<QuizDescription>({ mode: 'onChange' })
     const { error: { updateQuizError }, loading: { updateQuizLoading } } = useTypedSelector((state) => state.quiz)
     const { updateQuizDescription } = useActions()
 

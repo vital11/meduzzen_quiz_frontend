@@ -1,5 +1,5 @@
 import { api } from '.'
-import { Quiz, IQuizCreate, IQuizUpdate, IDescriptionUpdate, IQuestionsUpdate } from '../types/quiz'
+import { Quiz, IQuizCreate, IQuizUpdate, QuizDescription } from '../types/quiz'
 
 
 export const quizAPI = {
@@ -16,11 +16,11 @@ export const quizAPI = {
         return await api.get<Quiz[]>(`/quizzes/companies/${companyId}`).then(response => response.data)
     },
 
-    async updateQuizDescription(updateForm: IDescriptionUpdate): Promise<Quiz> {
+    async updateQuizDescription(updateForm: QuizDescription): Promise<Quiz> {
         return await api.patch<Quiz>('/quizzes/', updateForm).then(response => response.data)
     },
 
-    async updateQuizQuestions(updateForm: IQuestionsUpdate): Promise<Quiz> {
+    async updateQuiz(updateForm: IQuizUpdate): Promise<Quiz> {
         return await api.patch<Quiz>('/quizzes/questions', updateForm).then(response => response.data)
     },
 

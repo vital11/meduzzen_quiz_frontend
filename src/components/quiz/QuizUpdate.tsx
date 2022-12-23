@@ -3,28 +3,28 @@ import { useForm } from 'react-hook-form'
 
 import { useActions } from "../../hooks/useActions"
 import { useTypedSelector } from "../../hooks/useTypedSelector"
-import { IQuestionsUpdate, QuizProps } from "../../types/quiz"
+import { IQuizUpdate, QuizProps } from "../../types/quiz"
 import { ErrorMessage, Loader } from "../UI/Messages"
 import QuizModal from "../UI/QuizModal"
 import Questions from "./Questions"
 
 
-export default function QuestionsUpdate({ companyId, quizId }: QuizProps) {
+export default function QuizUpdate({ companyId, quizId }: QuizProps) {
     const { quiz, error: { updateQuizError }, loading: { updateQuizLoading } } = useTypedSelector((state) => state.quiz)
 
     const defaultValues = {
         questions: quiz.questions && [...quiz.questions]
     }
 
-    const { control, register, handleSubmit, getValues, reset, setValue, formState: { errors, isValid } } = useForm<IQuestionsUpdate>({
+    const { control, register, handleSubmit, getValues, reset, setValue, formState: { errors, isValid } } = useForm<IQuizUpdate>({
         defaultValues
     })
 
-    const { updateQuizQuestions } = useActions()
+    const { updateQuiz } = useActions()
     const [modal, setModal] = useState(false)
 
     const onSubmit = handleSubmit(( data ) => {
-        updateQuizQuestions({ ...data, company_id: companyId, quiz_id: quizId })
+        updateQuiz({ ...data, company_id: companyId, quiz_id: quizId })
         setModal(false)
     })
 

@@ -1,7 +1,7 @@
 import { AxiosError } from 'axios'
 import { Dispatch } from 'redux'
 import { quizAPI } from '../../api/quizAPI'
-import { QuizAction, QuizActionTypes, IQuizCreate, IQuizUpdate, IDescriptionUpdate, IQuestionsUpdate } from '../../types/quiz'
+import { QuizAction, QuizActionTypes, IQuizCreate, IQuizUpdate, QuizDescription } from '../../types/quiz'
 
 
 export const addQuiz = (data: IQuizCreate) => {
@@ -55,7 +55,7 @@ export const fetchCompanyQuizzes = (companyId: number) => {
     }
 }
 
-export const updateQuizDescription = (data: IDescriptionUpdate) => {
+export const updateQuizDescription = (data: QuizDescription) => {
     return async (dispatch: Dispatch<QuizAction>) => {
         try {
             dispatch({ type: QuizActionTypes.UPDATE_QUIZ })
@@ -72,11 +72,11 @@ export const updateQuizDescription = (data: IDescriptionUpdate) => {
     }
 }
 
-export const updateQuizQuestions = (data: IQuestionsUpdate) => {
+export const updateQuiz = (data: IQuizUpdate) => {
     return async (dispatch: Dispatch<QuizAction>) => {
         try {
             dispatch({ type: QuizActionTypes.UPDATE_QUIZ })
-            const quiz = await quizAPI.updateQuizQuestions(data)
+            const quiz = await quizAPI.updateQuiz(data)
             dispatch({
                 type: QuizActionTypes.UPDATE_QUIZ_SUCCESS,
                 payload: quiz })

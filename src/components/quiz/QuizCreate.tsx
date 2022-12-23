@@ -1,6 +1,5 @@
 import { useState } from "react"
 import { useForm } from 'react-hook-form'
-
 import { useActions } from "../../hooks/useActions"
 import { useTypedSelector } from "../../hooks/useTypedSelector"
 import { IQuizCreate } from "../../types/quiz"

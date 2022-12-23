@@ -3,65 +3,41 @@ type QuestionBase = {
     question_name: string
     answers: string[]
     right_answer: string
+}
+
+type Question = QuestionBase & {
     quiz_id: number 
 }
 
-type QuestionCreate = {
+export type Answer = {
     question_name: string
-    answers: string[]
     right_answer: string
-}
-
-export type QuestionUpdate = QuestionCreate
-
-export type QuestionDelete = {
-    quiz_id?: number 
-    question_name: string
-    answers?: string[]
-    right_answer?: string
-}
-
-export type Question = {
-    question_name: string
-    answers: string[]
-    right_answer: string
-    quiz_id: number 
+    answer: string
+    correct: boolean
 }
 
 type QuizBase = {
+    company_id: number
     quiz_name?: string
     quiz_description?: string
-    company_id?: number
-    questions?: Question[] | QuestionCreate[] | QuestionUpdate[]
     frequency?: number
 }
 
 export interface IQuizCreate extends QuizBase {
     quiz_name: string
-    questions: QuestionCreate[]
-    company_id: number
+    questions: QuestionBase[]
 }
 
 export interface IQuizUpdate extends QuizBase {
-    questions?: QuestionUpdate[]
     quiz_id: number
-    company_id: number
+    questions?: QuestionBase[]
 }
 
-export interface IDescriptionUpdate {
+export interface QuizDescription extends QuizBase {
     quiz_name?: string
     quiz_description?: string
     quiz_id: number
-    company_id: number
 }
-
-export interface IQuestionsUpdate extends QuizBase {
-    questions?: QuestionUpdate[]
-    quiz_id: number
-    company_id: number
-}
-
-export interface QuizDelete {}
 
 export interface Quiz extends IQuizCreate {
     quiz_id: number
@@ -72,11 +48,8 @@ export type QuizProps = {
     quizId: number
 }
 
-
-
 export type QuizListProps = {
     title: string
-    quizzes?: Quiz[]
     companyId: number
 }
 
@@ -112,7 +85,6 @@ export interface QuizState {
 
 export enum QuizActionTypes {
 
-    // FETCH_QUIZZES (Company / User)
     ADD_QUIZ = 'ADD_QUIZ',
     ADD_QUIZ_SUCCESS = 'ADD_QUIZ_SUCCESS',
     ADD_QUIZ_ERROR = 'ADD_QUIZ_ERROR',
